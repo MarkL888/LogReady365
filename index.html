@@ -966,6 +966,50 @@ orderForm.addEventListener("submit", function (event) {
 
   <div id="orderList" class="log-list"></div>
 </section>
+    const orderMessage = document.getElementById("orderMessage");
+
+orderForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const name = orderName.value.trim();
+  const item = orderItem.value.trim();
+  const qty = orderQty.value.trim();
+  const notes = orderNotes.value.trim();
+
+  orderMessage.classList.add("hidden");
+  orderMessage.textContent = "";
+
+  if (!name || !item || !qty) {
+    orderMessage.textContent = "Please fill in name, item, and quantity.";
+    orderMessage.style.color = "#a43a2a";
+    orderMessage.classList.remove("hidden");
+    return;
+  }
+
+  const now = new Date();
+  const time = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  const row = document.createElement("div");
+  row.className = "log-row";
+  row.innerHTML = `
+    <div>
+      <strong>${item} x${qty}</strong>
+      <span>${name}${notes ? " · " + notes : ""}</span>
+    </div>
+    <small>${time}</small>
+  `;
+
+  orderList.prepend(row);
+
+  orderMessage.textContent = "Order saved successfully.";
+  orderMessage.style.color = "#2f6f36";
+  orderMessage.classList.remove("hidden");
+
+  orderForm.reset();
+});
   </script>
 </body>
 </html>

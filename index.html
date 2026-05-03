@@ -2,11 +2,888 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
   <title>LogReady365</title>
+  <style>
+    :root {
+      --bg: #f5f4ef;
+      --surface: #fbfaf7;
+      --surface-2: #efebe4;
+      --text: #1f1d19;
+      --muted: #6e6a63;
+      --line: rgba(31, 29, 25, 0.12);
+      --primary: #0e6b67;
+      --primary-dark: #0b4f4c;
+      --danger: #a43a2a;
+      --ok: #2f6f36;
+      --shadow: 0 10px 30px rgba(23, 20, 15, 0.08);
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --radius-sm: 10px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    .app-shell {
+      width: 100%;
+      min-height: 100vh;
+      max-width: 430px;
+      margin: 0 auto;
+      background: var(--bg);
+      position: relative;
+      padding-bottom: 96px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(10px);
+      background: rgba(245, 244, 239, 0.86);
+      border-bottom: 1px solid var(--line);
+      padding: 18px 18px 14px;
+    }
+
+    .brand-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--primary);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+
+    .brand-text h1 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-text p {
+      margin: 4px 0 0;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .theme-btn {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 999px;
+      min-width: 44px;
+      min-height: 44px;
+      padding: 0 14px;
+      cursor: pointer;
+    }
+
+    main {
+      padding: 18px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-card,
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .hero-title {
+      margin: 0;
+      font-size: 28px;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    .hero-copy {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat {
+      background: var(--surface-2);
+      border-radius: 14px;
+      padding: 12px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .card {
+      padding: 16px;
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 12px;
+    }
+
+    .check-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: #fff;
+    }
+
+    .check-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      background: var(--surface-2);
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+
+    .check-copy h3 {
+      margin: 0 0 4px;
+      font-size: 15px;
+    }
+
+    .check-copy p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .status-pill {
+      border-radius: 999px;
+      padding: 8px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-due {
+      background: rgba(164, 58, 42, 0.12);
+      color: var(--danger);
+    }
+
+    .status-done {
+      background: rgba(47, 111, 54, 0.12);
+      color: var(--ok);
+    }
+
+    .log-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .log-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .log-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .log-row:first-child {
+      padding-top: 0;
+    }
+
+    .log-row strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .log-row span,
+    .log-row small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .report-box {
+      border-radius: var(--radius-md);
+      background: linear-gradient(180deg, #106f6b, #0d5552);
+      color: #fff;
+      padding: 16px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .report-box h3,
+    .report-box p {
+      margin: 0;
+    }
+
+    .report-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      font-size: 13px;
+      opacity: 0.92;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn,
+    .btn-secondary {
+      min-height: 46px;
+      padding: 0 16px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.14);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .quick-btn {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      text-align: left;
+      min-height: 86px;
+      cursor: pointer;
+    }
+
+    .quick-btn strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .quick-btn span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: 12px;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 406px;
+      background: rgba(251, 250, 247, 0.92);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: 20px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 8px;
+      gap: 6px;
+    }
+
+    .nav-btn {
+      border: none;
+      background: transparent;
+      border-radius: 14px;
+      padding: 10px 8px;
+      min-height: 56px;
+      color: var(--muted);
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .nav-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .fab {
+      position: fixed;
+      right: calc(50% - 430px / 2 + 18px);
+      bottom: 92px;
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      border: none;
+      background: var(--text);
+      color: #fff;
+      box-shadow: var(--shadow);
+      font-size: 28px;
+      cursor: pointer;
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(16, 13, 10, 0.45);
+      display: none;
+      align-items: end;
+      justify-content: center;
+      padding: 16px;
+      z-index: 40;
+    }
+
+    .modal-backdrop.show {
+      display: flex;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: 430px;
+      background: var(--surface);
+      border-radius: 24px 24px 18px 18px;
+      border: 1px solid var(--line);
+      padding: 18px;
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 14px;
+    }
+
+    .modal h3,
+    .modal p {
+      margin: 0;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      background: #fff;
+      color: var(--text);
+    }
+
+    .field textarea {
+      min-height: 92px;
+      resize: vertical;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .modal-actions button {
+      flex: 1;
+      min-height: 48px;
+      border-radius: 14px;
+      cursor: pointer;
+      font-weight: 700;
+      border: 1px solid var(--line);
+    }
+
+    .cancel-btn {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .save-btn {
+      background: var(--primary);
+      color: #fff;
+      border-color: transparent;
+    }
+
+    .helper {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    [data-theme="dark"] {
+      --bg: #171512;
+      --surface: #1f1c18;
+      --surface-2: #2a2621;
+      --text: #f2eee7;
+      --muted: #b1aaa0;
+      --line: rgba(255, 255, 255, 0.1);
+      --primary: #4e9d96;
+      --primary-dark: #89c8c3;
+      --danger: #ff8b79;
+      --ok: #8ed195;
+      --shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+    }
+
+    [data-theme="dark"] .check-item,
+    [data-theme="dark"] .quick-btn,
+    [data-theme="dark"] .field input,
+    [data-theme="dark"] .field textarea,
+    [data-theme="dark"] .field select {
+      background: #24201b;
+      color: var(--text);
+    }
+
+    [data-theme="dark"] .topbar {
+      background: rgba(23, 21, 18, 0.88);
+    }
+
+    [data-theme="dark"] .bottom-nav {
+      background: rgba(31, 28, 24, 0.92);
+    }
+
+    @media (max-width: 460px) {
+      .fab {
+        right: 18px;
+      }
+    }
+
+    @media (min-width: 740px) {
+      body {
+        padding: 24px 0;
+      }
+
+      .app-shell {
+        min-height: calc(100vh - 48px);
+        border: 1px solid var(--line);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .bottom-nav {
+        bottom: 24px;
+      }
+
+      .fab {
+        bottom: 104px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>LogReady365</h1>
-  <p>Food truck compliance app.</p>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-row">
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+              <path d="M7 12.5L10.2 15.7L17.5 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="3.5" y="3.5" width="17" height="17" rx="4" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>LogReady365</h1>
+            <p>Daily compliance, ready for inspection</p>
+          </div>
+        </div>
+        <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">◐</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero-card">
+        <p class="eyebrow">Today · Monday shift</p>
+        <h2 class="hero-title">Stay inspection-ready without chasing paper logs.</h2>
+        <p class="hero-copy">
+          Complete your opening checks, temperature logs, cleaning tasks, and end-of-day records from one screen.
+        </p>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <strong>3</strong>
+            <span>Checks due now</span>
+          </div>
+          <div class="stat">
+            <strong>14</strong>
+            <span>Logs completed today</span>
+          </div>
+          <div class="stat">
+            <strong>98%</strong>
+            <span>This week score</span>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn" id="openChecklistBtn">Complete a check</button>
+          <button class="btn-secondary">View today’s report</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Due now</h2>
+            <p>Tasks that should be done before service starts</p>
+          </div>
+        </div>
+
+        <div class="checklist">
+          <article class="check-item">
+            <div class="check-icon">A</div>
+            <div class="check-copy">
+              <h3>Opening hygiene check</h3>
+              <p>Handwash station, sanitiser, paper towels, soap, bins.</p>
+            </div>
+            <div class="status-pill status-due">Due</div>
+          </article>
+
+          <article class="check-item">
+            <div class="check-icon">T</div>
+            <div class="check-copy">
+              <h3>Fridge temperature log</h3>
+              <p>Record fridge and freezer temperatures before service.</p>
+            </div>
+            <div class="status-pill status-due">Due</div>
+          </article>
+
+          <article class="check-item">
+            <div class="check-icon">C</div>
+            <div class="check-copy">
+              <h3>Surface sanitising check</h3>
+              <p>Confirm prep surfaces and utensils are cleaned and ready.</p>
+            </div>
+            <div class="status-pill status-done">Done</div>
+          </article>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Quick actions</h2>
+            <p>Fast entries for busy shifts</p>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <button class="quick-btn" id="quickTempBtn">
+            <strong>Add temp log</strong>
+            <span>Record fridge or freezer temperature in seconds.</span>
+          </button>
+
+          <button class="quick-btn" id="quickCleanBtn">
+            <strong>Add cleaning log</strong>
+            <span>Save a cleaning check with notes and timestamp.</span>
+          </button>
+
+          <button class="quick-btn">
+            <strong>Upload photo</strong>
+            <span>Attach proof of completed checks for records.</span>
+          </button>
+
+          <button class="quick-btn">
+            <strong>View missing items</strong>
+            <span>See what would fail an inspection today.</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Recent logs</h2>
+            <p>Latest recorded activity</p>
+          </div>
+        </div>
+
+        <div class="log-list" id="recentLogs">
+          <div class="log-row">
+            <div>
+              <strong>Freezer temperature</strong>
+              <span>-18°C recorded by Mark</span>
+            </div>
+            <small>09:04</small>
+          </div>
+          <div class="log-row">
+            <div>
+              <strong>Surface clean complete</strong>
+              <span>Main prep area sanitised before opening</span>
+            </div>
+            <small>08:51</small>
+          </div>
+          <div class="log-row">
+            <div>
+              <strong>Opening hygiene check</strong>
+              <span>Soap, towels, and sanitiser stocked</span>
+            </div>
+            <small>08:43</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <h2>Inspection report</h2>
+            <p>What you can show an officer today</p>
+          </div>
+        </div>
+
+        <div class="report-box">
+          <div>
+            <h3>Today’s report status: strong</h3>
+            <p>Most essential logs are present and timestamped. One fridge check is still due.</p>
+          </div>
+          <div class="report-meta">
+            <span>Date: 03 May 2026</span>
+            <span>Missing items: 1</span>
+            <span>Attached photos: 2</span>
+          </div>
+          <div class="btn-row">
+            <button class="btn-secondary">Preview PDF</button>
+            <button class="btn-secondary">Send to owner</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="Primary navigation">
+      <button class="nav-btn active">
+        <span>Home</span>
+      </button>
+      <button class="nav-btn">
+        <span>Logs</span>
+      </button>
+      <button class="nav-btn">
+        <span>Reports</span>
+      </button>
+      <button class="nav-btn">
+        <span>Settings</span>
+      </button>
+    </nav>
+
+    <button class="fab" id="fabBtn" aria-label="Add new log">+</button>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Add a compliance log</h3>
+      <p class="helper">Use this to simulate saving a food safety record.</p>
+
+      <div class="field">
+        <label for="logType">Log type</label>
+        <select id="logType">
+          <option>Fridge temperature</option>
+          <option>Freezer temperature</option>
+          <option>Opening hygiene check</option>
+          <option>Cleaning check</option>
+          <option>Closing check</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="logValue">Value or result</label>
+        <input id="logValue" type="text" placeholder="e.g. 4°C or Completed" />
+      </div>
+
+      <div class="field">
+        <label for="logNotes">Notes</label>
+        <textarea id="logNotes" placeholder="Optional note for the record"></textarea>
+      </div>
+
+      <div class="modal-actions">
+        <button class="cancel-btn" id="cancelBtn">Cancel</button>
+        <button class="save-btn" id="saveBtn">Save log</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const themeToggle = document.getElementById("themeToggle");
+    const root = document.documentElement;
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    let currentTheme = prefersDark ? "dark" : "light";
+    root.setAttribute("data-theme", currentTheme);
+
+    themeToggle.addEventListener("click", () => {
+      currentTheme = currentTheme === "dark" ? "light" : "dark";
+      root.setAttribute("data-theme", currentTheme);
+    });
+
+    const modalBackdrop = document.getElementById("modalBackdrop");
+    const openChecklistBtn = document.getElementById("openChecklistBtn");
+    const fabBtn = document.getElementById("fabBtn");
+    const quickTempBtn = document.getElementById("quickTempBtn");
+    const quickCleanBtn = document.getElementById("quickCleanBtn");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const saveBtn = document.getElementById("saveBtn");
+    const recentLogs = document.getElementById("recentLogs");
+    const logType = document.getElementById("logType");
+    const logValue = document.getElementById("logValue");
+    const logNotes = document.getElementById("logNotes");
+
+    function openModal(defaultType) {
+      if (defaultType) logType.value = defaultType;
+      modalBackdrop.classList.add("show");
+      modalBackdrop.setAttribute("aria-hidden", "false");
+      setTimeout(() => logValue.focus(), 50);
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove("show");
+      modalBackdrop.setAttribute("aria-hidden", "true");
+      logValue.value = "";
+      logNotes.value = "";
+    }
+
+    openChecklistBtn.addEventListener("click", () => openModal("Opening hygiene check"));
+    fabBtn.addEventListener("click", () => openModal("Fridge temperature"));
+    quickTempBtn.addEventListener("click", () => openModal("Fridge temperature"));
+    quickCleanBtn.addEventListener("click", () => openModal("Cleaning check"));
+    cancelBtn.addEventListener("click", closeModal);
+
+    modalBackdrop.addEventListener("click", (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+
+    saveBtn.addEventListener("click", () => {
+      const type = logType.value.trim();
+      const value = logValue.value.trim() || "Completed";
+      const notes = logNotes.value.trim() || "Saved from mobile app";
+      const now = new Date();
+      const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+
+      const row = document.createElement("div");
+      row.className = "log-row";
+      row.innerHTML = `
+        <div>
+          <strong>${type}</strong>
+          <span>${value} · ${notes}</span>
+        </div>
+        <small>${time}</small>
+      `;
+
+      recentLogs.prepend(row);
+      closeModal();
+    });
+  </script>
 </body>
 </html>

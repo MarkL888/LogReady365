@@ -4,1258 +4,575 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>LogReady365</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --bg: #f6f4ee;
-      --surface: #fcfbf8;
-      --surface-2: #f0ece4;
-      --surface-3: #e7e1d7;
-      --text: #1d1b17;
-      --muted: #706b63;
-      --line: rgba(29, 27, 23, 0.12);
-      --primary: #0f6f69;
-      --primary-dark: #0a514d;
-      --danger: #ad3f2e;
-      --ok: #2f7540;
-      --warning: #b07a18;
-      --info: #165f8c;
-      --shadow: 0 16px 40px rgba(23, 20, 15, 0.08);
-      --radius-xl: 24px;
-      --radius-lg: 20px;
-      --radius-md: 14px;
-      --radius-sm: 10px;
-      --space-1: 4px;
-      --space-2: 8px;
-      --space-3: 12px;
-      --space-4: 16px;
-      --space-5: 20px;
-      --space-6: 24px;
-      --space-8: 32px;
-      --space-10: 40px;
-      --space-12: 48px;
+    :root,[data-theme="light"] {
+      --bg:#f4f3ef;
+      --surface:#fbfaf7;
+      --surface-2:#f2efe9;
+      --surface-3:#e9e4db;
+      --text:#1f1d18;
+      --muted:#726d64;
+      --faint:#a8a39a;
+      --line:rgba(31,29,24,.10);
+      --primary:#0c6e70;
+      --primary-2:#d8ecea;
+      --success:#437a22;
+      --warning:#b7791f;
+      --danger:#b24b3c;
+      --info:#2b6cb0;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.03),0 8px 24px rgba(24,22,17,.04);
+      --shadow-md:0 4px 16px rgba(0,0,0,.05),0 18px 48px rgba(24,22,17,.08);
+      --radius-sm:12px;
+      --radius-md:18px;
+      --radius-lg:24px;
+      --radius-xl:32px;
+      --space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:20px;--space-6:24px;--space-8:32px;--space-10:40px;--space-12:48px;--space-16:64px;
     }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    button, input, textarea, select { font: inherit; }
-
-    .app-shell {
-      width: 100%;
-      min-height: 100vh;
-      max-width: 430px;
-      margin: 0 auto;
-      background: var(--bg);
-      position: relative;
-      padding-bottom: 110px;
-    }
-
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 30;
-      backdrop-filter: blur(10px);
-      background: rgba(246, 244, 238, 0.88);
-      border-bottom: 1px solid var(--line);
-      padding: 18px 18px 14px;
-    }
-
-    .brand-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: var(--space-4);
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
-    }
-
-    .logo {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      background: var(--primary);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      box-shadow: var(--shadow);
-      flex-shrink: 0;
-    }
-
-    .brand-text h1 {
-      margin: 0;
-      font-size: 18px;
-      line-height: 1.1;
-      letter-spacing: -0.02em;
-    }
-
-    .brand-text p {
-      margin: 4px 0 0;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .theme-btn {
-      border: 1px solid var(--line);
-      background: var(--surface);
-      color: var(--text);
-      border-radius: 999px;
-      min-width: 44px;
-      min-height: 44px;
-      padding: 0 14px;
-      cursor: pointer;
-    }
-
-    main {
-      padding: 18px;
-      display: grid;
-      gap: 16px;
-    }
-
-    .hero-card,
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: var(--radius-lg);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-card {
-      padding: 18px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .eyebrow {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .hero-title {
-      margin: 0;
-      font-size: 28px;
-      line-height: 1.05;
-      letter-spacing: -0.03em;
-    }
-
-    .hero-copy {
-      margin: 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.6;
-    }
-
-    .hero-stats,
-    .overview-grid,
-    .quick-actions {
-      display: grid;
-      gap: 10px;
-    }
-
-    .hero-stats { grid-template-columns: repeat(3, 1fr); }
-    .overview-grid { grid-template-columns: repeat(2, 1fr); }
-    .quick-actions { grid-template-columns: repeat(2, 1fr); }
-
-    .stat,
-    .overview-tile {
-      background: var(--surface-2);
-      border-radius: 14px;
-      padding: 12px;
-    }
-
-    .stat strong,
-    .overview-tile strong {
-      display: block;
-      font-size: 18px;
-      margin-bottom: 4px;
-    }
-
-    .stat span,
-    .overview-tile span {
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    .card { padding: 16px; }
-
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 14px;
-    }
-
-    .section-head h2 {
-      margin: 0;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-    }
-
-    .section-head p,
-    .section-head span {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .link-btn {
-      color: var(--primary);
-      background: transparent;
-      border: none;
-      font-weight: 700;
-      cursor: pointer;
-      padding: 0;
-    }
-
-    .checklist,
-    .form-grid,
-    .stack {
-      display: grid;
-      gap: 12px;
-    }
-
-    .check-item,
-    .log-row,
-    .alert-row {
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: #fff;
-    }
-
-    .check-item {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 12px;
-      align-items: center;
-      padding: 12px;
-    }
-
-    .check-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-      display: grid;
-      place-items: center;
-      background: var(--surface-2);
-      color: var(--primary-dark);
-      font-weight: 700;
-    }
-
-    .check-copy h3,
-    .metric-title,
-    .list-title {
-      margin: 0 0 4px;
-      font-size: 15px;
-    }
-
-    .check-copy p,
-    .metric-copy,
-    .list-copy {
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .status-pill {
-      border-radius: 999px;
-      padding: 8px 10px;
-      font-size: 12px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .status-due { background: rgba(173, 63, 46, 0.12); color: var(--danger); }
-    .status-done { background: rgba(47, 117, 64, 0.12); color: var(--ok); }
-    .status-warning { background: rgba(176, 122, 24, 0.12); color: var(--warning); }
-
-    .log-list,
-    .alerts-list { display: grid; gap: 10px; }
-
-    .log-row,
-    .alert-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 12px;
-    }
-
-    .log-row strong,
-    .alert-row strong {
-      display: block;
-      margin-bottom: 4px;
-      font-size: 14px;
-    }
-
-    .log-row span,
-    .log-row small,
-    .alert-row span,
-    .alert-row small {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .report-box {
-      border-radius: var(--radius-md);
-      background: linear-gradient(180deg, #106f6b, #0d5552);
-      color: #fff;
-      padding: 16px;
-      display: grid;
-      gap: 14px;
-    }
-
-    .report-box h3,
-    .report-box p { margin: 0; }
-
-    .report-meta,
-    .meta-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      font-size: 13px;
-      opacity: 0.92;
-    }
-
-    .btn-row {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .btn,
-    .btn-secondary,
-    .btn-ghost {
-      min-height: 46px;
-      padding: 0 16px;
-      border-radius: 999px;
-      cursor: pointer;
-      font-weight: 700;
-    }
-
-    .btn {
-      background: var(--primary);
-      color: #fff;
-      border: none;
-    }
-
-    .btn-secondary {
-      background: rgba(255, 255, 255, 0.14);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid var(--line);
-    }
-
-    .quick-btn,
-    .action-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      text-align: left;
-      min-height: 86px;
-      cursor: pointer;
-    }
-
-    .quick-btn strong,
-    .action-card strong {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 14px;
-    }
-
-    .quick-btn span,
-    .action-card span {
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 1.45;
-    }
-
-    .bottom-nav {
-      position: fixed;
-      left: 50%;
-      bottom: 12px;
-      transform: translateX(-50%);
-      width: calc(100% - 24px);
-      max-width: 406px;
-      background: rgba(251, 250, 247, 0.92);
-      backdrop-filter: blur(12px);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-      border-radius: 20px;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      padding: 8px;
-      gap: 6px;
-      z-index: 35;
-    }
-
-    .nav-btn {
-      border: none;
-      background: transparent;
-      border-radius: 14px;
-      padding: 10px 8px;
-      min-height: 56px;
-      color: var(--muted);
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-
-    .nav-btn.active {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .fab {
-      position: fixed;
-      right: calc(50% - 430px / 2 + 18px);
-      bottom: 92px;
-      width: 58px;
-      height: 58px;
-      border-radius: 18px;
-      border: none;
-      background: var(--text);
-      color: #fff;
-      box-shadow: var(--shadow);
-      font-size: 28px;
-      cursor: pointer;
-      z-index: 34;
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(16, 13, 10, 0.45);
-      display: none;
-      align-items: end;
-      justify-content: center;
-      padding: 16px;
-      z-index: 40;
-    }
-
-    .modal-backdrop.show { display: flex; }
-
-    .modal {
-      width: 100%;
-      max-width: 430px;
-      background: var(--surface);
-      border-radius: 24px 24px 18px 18px;
-      border: 1px solid var(--line);
-      padding: 18px;
-      box-shadow: var(--shadow);
-      display: grid;
-      gap: 14px;
-    }
-
-    .modal h3,
-    .modal p { margin: 0; }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    .field label {
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      width: 100%;
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 12px 14px;
-      background: #fff;
-      color: var(--text);
-    }
-
-    .field textarea {
-      min-height: 92px;
-      resize: vertical;
-    }
-
-    .inline-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 10px;
-    }
-
-    .modal-actions button {
-      flex: 1;
-      min-height: 48px;
-      border-radius: 14px;
-      cursor: pointer;
-      font-weight: 700;
-      border: 1px solid var(--line);
-    }
-
-    .cancel-btn {
-      background: transparent;
-      color: var(--text);
-    }
-
-    .save-btn {
-      background: var(--primary);
-      color: #fff;
-      border-color: transparent;
-    }
-
-    .helper,
-    .empty-copy {
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .message {
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .empty-state {
-      display: grid;
-      gap: 8px;
-      padding: 18px;
-      background: var(--surface-2);
-      border-radius: var(--radius-md);
-      text-align: center;
-    }
-
-    .hidden { display: none !important; }
-    .page-section.hidden-section { display: none; }
-
-    .table-wrap {
-      overflow: auto;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: #fff;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    th, td {
-      text-align: left;
-      padding: 12px;
-      border-bottom: 1px solid var(--line);
-      font-size: 13px;
-    }
-
-    th {
-      color: var(--muted);
-      font-weight: 700;
-      background: var(--surface-2);
-    }
-
-    td strong { display: block; }
-
     [data-theme="dark"] {
-      --bg: #171512;
-      --surface: #1f1c18;
-      --surface-2: #2a2621;
-      --surface-3: #322d27;
-      --text: #f2eee7;
-      --muted: #b1aaa0;
-      --line: rgba(255, 255, 255, 0.1);
-      --primary: #4e9d96;
-      --primary-dark: #89c8c3;
-      --danger: #ff8b79;
-      --ok: #8ed195;
-      --warning: #edc067;
-      --info: #7eb7dd;
-      --shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
+      --bg:#171614;
+      --surface:#1d1c1a;
+      --surface-2:#242320;
+      --surface-3:#2b2a26;
+      --text:#ede8de;
+      --muted:#aaa398;
+      --faint:#6f695f;
+      --line:rgba(255,255,255,.10);
+      --primary:#4f9ca1;
+      --primary-2:#243a3b;
+      --success:#79b85a;
+      --warning:#e1b35d;
+      --danger:#dd7c72;
+      --info:#7fb5e7;
+      --shadow-sm:0 1px 2px rgba(0,0,0,.18),0 8px 24px rgba(0,0,0,.18);
+      --shadow-md:0 4px 16px rgba(0,0,0,.26),0 18px 48px rgba(0,0,0,.28);
     }
-
-    [data-theme="dark"] .check-item,
-    [data-theme="dark"] .quick-btn,
-    [data-theme="dark"] .action-card,
-    [data-theme="dark"] .field input,
-    [data-theme="dark"] .field textarea,
-    [data-theme="dark"] .field select,
-    [data-theme="dark"] .log-row,
-    [data-theme="dark"] .alert-row,
-    [data-theme="dark"] .table-wrap {
-      background: #24201b;
-      color: var(--text);
-    }
-
-    [data-theme="dark"] .topbar {
-      background: rgba(23, 21, 18, 0.88);
-    }
-
-    [data-theme="dark"] .bottom-nav {
-      background: rgba(31, 28, 24, 0.92);
-    }
-
-    @media (max-width: 460px) {
-      .fab { right: 18px; }
-    }
-
-    @media (min-width: 740px) {
-      body { padding: 24px 0; }
-
-      .app-shell {
-        min-height: calc(100vh - 48px);
-        border: 1px solid var(--line);
-        border-radius: 28px;
-        overflow: hidden;
-        box-shadow: var(--shadow);
-      }
-
-      .bottom-nav { bottom: 24px; }
-      .fab { bottom: 104px; }
-    }
+    *{box-sizing:border-box}
+    html{-webkit-text-size-adjust:none;text-size-adjust:none;scroll-behavior:smooth}
+    body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+    button,input,textarea,select{font:inherit;color:inherit}
+    img,svg{display:block;max-width:100%}
+    .app{max-width:430px;margin:0 auto;min-height:100vh;position:relative;padding-bottom:108px}
+    .topbar{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:18px 18px 14px}
+    .topbar-row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px;min-width:0}
+    .logo{width:44px;height:44px;border-radius:14px;background:var(--primary);color:#fff;display:grid;place-items:center;box-shadow:var(--shadow-md)}
+    .brand h1{font-size:18px;line-height:1.1;letter-spacing:-.03em;margin:0}
+    .brand p{margin:4px 0 0;color:var(--muted);font-size:12px}
+    .top-actions{display:flex;gap:8px}
+    .icon-btn{width:42px;height:42px;border-radius:999px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer}
+    main{padding:18px;display:grid;gap:16px}
+    .page{display:none;gap:16px}
+    .page.active{display:grid}
+    .hero,.card,.list-row,.sheet,.timeline-item,.metric,.doc-row,.mini-card{background:var(--surface);border:1px solid var(--line);box-shadow:var(--shadow-sm)}
+    .hero,.card,.sheet{border-radius:var(--radius-lg)}
+    .hero{padding:18px;display:grid;gap:16px}
+    .eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0}
+    .hero h2{margin:0;font-size:30px;line-height:1.02;letter-spacing:-.05em}
+    .hero p{margin:0;color:var(--muted);font-size:14px;line-height:1.6}
+    .cta-row,.filter-row,.seg-row,.tab-row,.inline-actions,.modal-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .btn,.btn-soft,.btn-ghost,.pill,.seg-btn,.tab-btn{min-height:44px;border-radius:999px;padding:0 16px;border:1px solid transparent;cursor:pointer}
+    .btn{background:var(--primary);color:#fff;font-weight:700}
+    .btn-soft{background:var(--primary-2);color:var(--primary);font-weight:700}
+    .btn-ghost{background:transparent;border-color:var(--line);font-weight:600}
+    .pill{background:var(--surface-2);border-color:var(--line);font-size:12px;min-height:36px;padding:0 12px}
+    .section-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:14px}
+    .section-head h3{margin:0;font-size:18px;letter-spacing:-.03em}
+    .section-head p,.subtle{margin:4px 0 0;color:var(--muted);font-size:13px;line-height:1.5}
+    .card{padding:16px}
+    .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+    .metric{padding:12px;border-radius:16px;background:var(--surface-2)}
+    .metric strong{display:block;font-size:20px;letter-spacing:-.03em}
+    .metric span{color:var(--muted);font-size:12px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+    .mini-card{padding:14px;border-radius:16px;background:var(--surface-2)}
+    .mini-card strong{display:block;margin-bottom:4px}
+    .list{display:grid;gap:10px}
+    .list-row{border-radius:18px;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start}
+    .avatar{width:40px;height:40px;border-radius:12px;background:var(--surface-2);display:grid;place-items:center;font-weight:700;color:var(--primary)}
+    .list-row h4{margin:0 0 4px;font-size:15px}
+    .list-row p,.list-row small{margin:0;color:var(--muted);font-size:13px;line-height:1.45}
+    .status{display:inline-flex;align-items:center;gap:6px;padding:8px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+    .green{background:color-mix(in srgb,var(--success) 14%,transparent);color:var(--success)}
+    .amber{background:color-mix(in srgb,var(--warning) 18%,transparent);color:var(--warning)}
+    .red{background:color-mix(in srgb,var(--danger) 16%,transparent);color:var(--danger)}
+    .blue{background:color-mix(in srgb,var(--info) 16%,transparent);color:var(--info)}
+    .kicker{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;margin-bottom:6px}
+    .sheet{padding:18px;background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 96%,#fff 4%),color-mix(in srgb,var(--primary) 88%,#000 12%));color:#fff}
+    .sheet h3,.sheet p{margin:0}
+    .sheet .subtle{color:rgba(255,255,255,.82)}
+    .table-wrap{overflow:auto;border:1px solid var(--line);border-radius:18px;background:var(--surface)}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;text-align:left;vertical-align:top}
+    th{color:var(--muted);background:var(--surface-2)}
+    .search{width:100%;min-height:48px;border-radius:14px;border:1px solid var(--line);background:var(--surface);padding:0 14px}
+    .field{display:grid;gap:8px}
+    .field label{font-size:13px;font-weight:600}
+    .field input,.field textarea,.field select{width:100%;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:12px 14px}
+    .field textarea{min-height:92px;resize:vertical}
+    .stack{display:grid;gap:12px}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .bottom-nav{position:fixed;left:50%;bottom:12px;transform:translateX(-50%);width:calc(100% - 24px);max-width:406px;padding:8px;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 88%,transparent);backdrop-filter:blur(14px);border-radius:22px;box-shadow:var(--shadow-md);z-index:40}
+    .nav-btn{min-height:58px;border:none;border-radius:16px;background:transparent;color:var(--muted);display:grid;place-items:center;gap:4px;font-size:11px;font-weight:700;cursor:pointer}
+    .nav-btn.active{background:var(--primary);color:#fff}
+    .fab{position:fixed;right:max(18px,calc(50% - 430px/2 + 18px));bottom:88px;width:58px;height:58px;border-radius:18px;border:none;background:var(--text);color:var(--bg);box-shadow:var(--shadow-md);font-size:28px;cursor:pointer;z-index:39}
+    .drawer{position:fixed;inset:0;background:rgba(10,10,10,.42);display:none;align-items:end;justify-content:center;padding:12px;z-index:50}
+    .drawer.show{display:flex}
+    .modal{width:100%;max-width:430px;max-height:92vh;overflow:auto;background:var(--surface);border:1px solid var(--line);border-radius:28px;padding:18px;box-shadow:var(--shadow-md);display:grid;gap:14px}
+    .modal h3,.modal p{margin:0}
+    .seg-btn,.tab-btn{background:var(--surface-2);border-color:var(--line);font-weight:700;color:var(--muted)}
+    .seg-btn.active,.tab-btn.active{background:var(--primary);color:#fff;border-color:transparent}
+    .helper{font-size:12px;color:var(--muted)}
+    .empty{padding:20px;border-radius:18px;background:var(--surface-2);text-align:center;color:var(--muted)}
+    .folder{display:flex;justify-content:space-between;align-items:center;padding:14px;border:1px solid var(--line);border-radius:16px;background:var(--surface)}
+    .folder strong{display:block}
+    .badge{display:inline-flex;padding:6px 10px;border-radius:999px;background:var(--surface-2);font-size:12px;color:var(--muted);font-weight:700}
+    .timeline{display:grid;gap:12px}
+    .timeline-item{padding:14px;border-radius:18px}
+    .flow{display:grid;gap:8px}
+    .flow-step{padding:12px 14px;border-radius:14px;background:var(--surface-2);border:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px}
+    .hidden{display:none!important}
+    @media (min-width:768px){body{padding:24px}.app{max-width:1180px;padding-bottom:24px}.topbar{border-radius:24px 24px 0 0}.shell{display:grid;grid-template-columns:280px 1fr;gap:18px;align-items:start}.desktop-side{display:grid;gap:14px;position:sticky;top:100px}.bottom-nav,.fab{display:none}.page-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:16px}.page-grid.full{grid-template-columns:1fr}.hero h2{font-size:42px}}
+    .desktop-side{display:none}
+    @media (min-width:768px){.desktop-side{display:grid}}
   </style>
 </head>
 <body>
-  <div class="app-shell">
-    <header class="topbar">
-      <div class="brand-row">
-        <div class="brand">
-          <div class="logo" aria-hidden="true">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-              <path d="M7 12.5L10.2 15.7L17.5 8.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-              <rect x="3.5" y="3.5" width="17" height="17" rx="4" stroke="currentColor" stroke-width="1.8"/>
-            </svg>
-          </div>
-          <div class="brand-text">
-            <h1>LogReady365</h1>
-            <p>Daily compliance, ready for inspection</p>
-          </div>
+<div class="app" id="appRoot">
+  <header class="topbar">
+    <div class="topbar-row">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M7 12.4l3.1 3.1L17.4 8.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="3.5" y="3.5" width="17" height="17" rx="4.5" stroke="currentColor" stroke-width="1.7"/></svg>
         </div>
-        <button class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">◐</button>
+        <div>
+          <h1>LogReady365</h1>
+          <p>Food truck compliance made inspection-ready</p>
+        </div>
       </div>
-    </header>
-
-    <main>
-      <section id="page-home" class="page-section">
-        <section class="hero-card">
-          <p class="eyebrow">Today · Monday shift</p>
-          <h2 class="hero-title">Stay inspection-ready without chasing paper logs.</h2>
-          <p class="hero-copy">Complete your opening checks, temperature logs, cleaning tasks, order notes, and end-of-day records from one clean workflow.</p>
-          <div class="hero-stats">
-            <div class="stat"><strong id="checksDueCount">3</strong><span>Checks due now</span></div>
-            <div class="stat"><strong id="logsTodayCount">3</strong><span>Logs saved today</span></div>
-            <div class="stat"><strong id="ordersTodayCount">0</strong><span>Orders today</span></div>
-          </div>
-          <div class="btn-row">
-            <button class="btn" id="openChecklistBtn">Complete a check</button>
-            <button class="btn-ghost" data-go-page="reports">View report</button>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Today at a glance</h2>
-              <p>Critical items operators need without digging through paper.</p>
-            </div>
-          </div>
-          <div class="overview-grid">
-            <div class="overview-tile"><strong id="reportStatusText">Strong</strong><span>Inspection readiness</span></div>
-            <div class="overview-tile"><strong id="missingCountText">1</strong><span>Missing items</span></div>
-            <div class="overview-tile"><strong>09:00</strong><span>Last fridge entry</span></div>
-            <div class="overview-tile"><strong>Open</strong><span>Shift status</span></div>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Due now</h2>
-              <p>Tasks that should be done before service starts.</p>
-            </div>
-          </div>
-          <div class="checklist">
-            <article class="check-item">
-              <div class="check-icon">A</div>
-              <div class="check-copy">
-                <h3>Opening hygiene check</h3>
-                <p>Handwash station, sanitiser, paper towels, soap, bins.</p>
-              </div>
-              <div class="status-pill status-due">Due</div>
-            </article>
-            <article class="check-item">
-              <div class="check-icon">T</div>
-              <div class="check-copy">
-                <h3>Fridge temperature log</h3>
-                <p>Record fridge and freezer temperatures before service.</p>
-              </div>
-              <div class="status-pill status-due">Due</div>
-            </article>
-            <article class="check-item">
-              <div class="check-icon">C</div>
-              <div class="check-copy">
-                <h3>Surface sanitising check</h3>
-                <p>Confirm prep surfaces and utensils are cleaned and ready.</p>
-              </div>
-              <div class="status-pill status-done">Done</div>
-            </article>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Quick actions</h2>
-              <p>Fast entries for busy shifts.</p>
-            </div>
-          </div>
-          <div class="quick-actions">
-            <button class="quick-btn" id="quickTempBtn"><strong>Add temp log</strong><span>Record fridge or freezer temperature in seconds.</span></button>
-            <button class="quick-btn" id="quickCleanBtn"><strong>Add cleaning log</strong><span>Save a cleaning check with notes and timestamp.</span></button>
-            <button class="quick-btn" data-go-page="orders"><strong>Add order</strong><span>Capture walk-up orders and service notes quickly.</span></button>
-            <button class="quick-btn" data-go-page="reports"><strong>Missing items</strong><span>See what would hurt an inspection today.</span></button>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Recent logs</h2>
-              <p>Latest recorded activity.</p>
-            </div>
-          </div>
-          <div class="log-list" id="recentLogs"></div>
-        </section>
-      </section>
-
-      <section id="page-orders" class="page-section hidden-section">
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Order form</h2>
-              <p>Quickly log a new customer order.</p>
-            </div>
-          </div>
-          <form id="orderForm" class="form-grid">
-            <div class="field">
-              <label for="orderName">Customer name</label>
-              <input id="orderName" type="text" placeholder="e.g. Sarah" />
-            </div>
-            <div class="inline-grid">
-              <div class="field">
-                <label for="orderItem">Order item</label>
-                <input id="orderItem" type="text" placeholder="e.g. Burger meal" />
-              </div>
-              <div class="field">
-                <label for="orderQty">Quantity</label>
-                <input id="orderQty" type="number" min="1" placeholder="1" />
-              </div>
-            </div>
-            <div class="field">
-              <label for="orderValue">Order total (€)</label>
-              <input id="orderValue" type="number" min="0" step="0.01" placeholder="12.50" />
-            </div>
-            <div class="field">
-              <label for="orderNotes">Notes</label>
-              <textarea id="orderNotes" placeholder="Optional notes"></textarea>
-            </div>
-            <p id="orderMessage" class="message hidden"></p>
-            <button class="btn" type="submit">Save order</button>
-          </form>
-        </section>
-
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Recent orders</h2>
-              <p>Orders saved from the mobile form.</p>
-            </div>
-          </div>
-          <div id="orderList" class="log-list"></div>
-          <div id="orderEmpty" class="empty-state hidden">
-            <strong>No orders yet</strong>
-            <p class="empty-copy">Your first saved order will appear here.</p>
-          </div>
-        </section>
-      </section>
-
-      <section id="page-logs" class="page-section hidden-section">
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>All compliance logs</h2>
-              <p>Every saved hygiene, temperature, and cleaning record.</p>
-            </div>
-            <button class="link-btn" id="clearLogsBtn" type="button">Clear demo data</button>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Value</th>
-                  <th>Notes</th>
-                  <th>Time</th>
-                </tr>
-              </thead>
-              <tbody id="logsTableBody"></tbody>
-            </table>
-          </div>
-        </section>
-      </section>
-
-      <section id="page-reports" class="page-section hidden-section">
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Inspection report</h2>
-              <p>What you can show an officer today.</p>
-            </div>
-          </div>
-          <div class="report-box">
-            <div>
-              <h3 id="reportHeadline">Today’s report status: strong</h3>
-              <p id="reportCopy">Most essential logs are present and timestamped. One fridge check is still due.</p>
-            </div>
-            <div class="report-meta">
-              <span id="reportDate">Date: 03 May 2026</span>
-              <span id="reportMissing">Missing items: 1</span>
-              <span id="reportOrders">Orders: 0</span>
-            </div>
-            <div class="btn-row">
-              <button class="btn-secondary" id="previewReportBtn" type="button">Preview summary</button>
-              <button class="btn-secondary" id="downloadReportBtn" type="button">Download text report</button>
-            </div>
-          </div>
-        </section>
-
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Risk alerts</h2>
-              <p>High-friction issues operators need to fix fast.</p>
-            </div>
-          </div>
-          <div class="alerts-list" id="alertsList"></div>
-        </section>
-      </section>
-
-      <section id="page-settings" class="page-section hidden-section">
-        <section class="card">
-          <div class="section-head">
-            <div>
-              <h2>Settings</h2>
-              <p>Simple operator preferences for this demo.</p>
-            </div>
-          </div>
-          <div class="stack">
-            <div class="action-card"><strong>Truck name</strong><span id="truckNameText">Mark’s Food Truck</span></div>
-            <div class="action-card"><strong>Reminder mode</strong><span>Manual demo mode</span></div>
-            <div class="action-card"><strong>Current stack</strong><span>Single-file HTML, CSS, and JavaScript MVP</span></div>
-          </div>
-        </section>
-      </section>
-    </main>
-
-    <nav class="bottom-nav" aria-label="Primary navigation">
-      <button class="nav-btn active" data-page="home"><span>Home</span></button>
-      <button class="nav-btn" data-page="orders"><span>Orders</span></button>
-      <button class="nav-btn" data-page="logs"><span>Logs</span></button>
-      <button class="nav-btn" data-page="reports"><span>Reports</span></button>
-      <button class="nav-btn" data-page="settings"><span>Settings</span></button>
-    </nav>
-
-    <button class="fab" id="fabBtn" aria-label="Add new log">+</button>
-  </div>
-
-  <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-      <h3 id="modalTitle">Add a compliance log</h3>
-      <p class="helper">Use this to save hygiene, temperature, or cleaning records.</p>
-
-      <div class="field">
-        <label for="logType">Log type</label>
-        <select id="logType">
-          <option>Fridge temperature</option>
-          <option>Freezer temperature</option>
-          <option>Opening hygiene check</option>
-          <option>Cleaning check</option>
-          <option>Closing check</option>
-        </select>
-      </div>
-
-      <div class="field">
-        <label for="logValue">Value or result</label>
-        <input id="logValue" type="text" placeholder="e.g. 4°C or Completed" />
-      </div>
-
-      <div class="field">
-        <label for="logNotes">Notes</label>
-        <textarea id="logNotes" placeholder="Optional note for the record"></textarea>
-      </div>
-
-      <p id="logMessage" class="message hidden"></p>
-
-      <div class="modal-actions">
-        <button class="cancel-btn" id="cancelBtn" type="button">Cancel</button>
-        <button class="save-btn" id="saveBtn" type="button">Save log</button>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeToggle" aria-label="Toggle theme">◐</button>
+        <button class="icon-btn" id="quickExportTop" aria-label="Export daily report">⇩</button>
       </div>
     </div>
+  </header>
+
+  <main class="shell">
+    <aside class="desktop-side">
+      <div class="card">
+        <div class="section-head"><div><h3>Today</h3><p>Fastest routes for busy operators.</p></div></div>
+        <div class="stack" id="desktopQuickNav"></div>
+      </div>
+      <div class="card">
+        <div class="section-head"><div><h3>Inspection pulse</h3><p>At-a-glance system status.</p></div></div>
+        <div class="grid-2" id="desktopPulse"></div>
+      </div>
+    </aside>
+
+    <section>
+      <section class="page active" id="page-home"></section>
+      <section class="page" id="page-tasks"></section>
+      <section class="page" id="page-logs"></section>
+      <section class="page" id="page-documents"></section>
+      <section class="page" id="page-more"></section>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Primary navigation">
+    <button class="nav-btn active" data-page="home">Home</button>
+    <button class="nav-btn" data-page="tasks">Tasks</button>
+    <button class="nav-btn" data-page="logs">Logs</button>
+    <button class="nav-btn" data-page="documents">Docs</button>
+    <button class="nav-btn" data-page="more">More</button>
+  </nav>
+  <button class="fab" id="fabBtn" aria-label="Quick add">+</button>
+</div>
+
+<div class="drawer" id="drawer">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">Quick add</h3>
+    <p class="helper">Capture the most frequent compliance action in a few taps.</p>
+    <div class="seg-row" id="quickTypeRow">
+      <button class="seg-btn active" data-quick="temp">Temp</button>
+      <button class="seg-btn" data-quick="clean">Cleaning</button>
+      <button class="seg-btn" data-quick="hygiene">Hygiene</button>
+      <button class="seg-btn" data-quick="batch">Batch</button>
+    </div>
+    <div class="field">
+      <label for="quickName">Entry</label>
+      <input id="quickName" placeholder="e.g. Fridge 1" />
+    </div>
+    <div class="split">
+      <div class="field">
+        <label for="quickValue">Value</label>
+        <input id="quickValue" placeholder="e.g. 4°C / Completed / B-1042" />
+      </div>
+      <div class="field">
+        <label for="quickOwner">Owner</label>
+        <select id="quickOwner"></select>
+      </div>
+    </div>
+    <div class="field">
+      <label for="quickNotes">Notes</label>
+      <textarea id="quickNotes" placeholder="Optional notes or corrective action context"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-ghost" id="closeDrawer">Cancel</button>
+      <button class="btn" id="saveQuick">Save entry</button>
+    </div>
   </div>
+</div>
 
-  <script>
-    const state = {
-      theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
-      currentPage: "home",
-      truckName: "Mark’s Food Truck",
-      logs: [
-        { type: "Freezer temperature", value: "-18°C", notes: "Recorded by Mark", time: "09:04" },
-        { type: "Surface clean complete", value: "Completed", notes: "Main prep area sanitised before opening", time: "08:51" },
-        { type: "Opening hygiene check", value: "Completed", notes: "Soap, towels, and sanitiser stocked", time: "08:43" }
-      ],
-      orders: []
-    };
+<script>
+const state = {
+  theme: window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
+  currentPage: 'home',
+  quickType: 'temp',
+  truck: {
+    name: 'Cinder & Salt',
+    concept: 'Gourmet street grill',
+    location: 'Dublin City Centre',
+    riskLevel: 'Medium',
+    serviceWindow: '11:00–20:00'
+  },
+  team: [
+    { id: 1, name: 'Mark O’Neill', role: 'Owner-operator', docsExpiring: 0 },
+    { id: 2, name: 'Leah Byrne', role: 'Shift lead', docsExpiring: 1 },
+    { id: 3, name: 'Tom Silva', role: 'Prep & hygiene', docsExpiring: 0 }
+  ],
+  tasks: [
+    { id: 1, title: 'Opening hygiene check', type: 'Hygiene', due: '09:00', status: 'due', owner: 'Leah Byrne', notes: 'Handwash sink, soap, towels, bins.' },
+    { id: 2, title: 'Fridge 1 temperature', type: 'Temperature', due: '09:10', status: 'due', owner: 'Tom Silva', notes: 'Critical limit 0–5°C.' },
+    { id: 3, title: 'Hot hold probe check', type: 'CCP', due: '12:00', status: 'attention', owner: 'Mark O’Neill', notes: 'Maintain above 63°C.' },
+    { id: 4, title: 'Closing clean-down', type: 'Cleaning', due: '20:10', status: 'upcoming', owner: 'Leah Byrne', notes: 'Surfaces, handles, drains, waste.' }
+  ],
+  logs: [
+    { id: 1, category: 'Temperature', entry: 'Freezer A', value: '-18°C', owner: 'Tom Silva', time: '09:02', batch: 'B-1040', verified: true },
+    { id: 2, category: 'Cleaning', entry: 'Prep surface sanitised', value: 'Completed', owner: 'Leah Byrne', time: '08:51', batch: '-', verified: true },
+    { id: 3, category: 'Hygiene', entry: 'Opening hygiene check', value: 'Completed', owner: 'Leah Byrne', time: '08:44', batch: '-', verified: false },
+    { id: 4, category: 'Temperature', entry: 'Fridge 1', value: '7°C', owner: 'Tom Silva', time: '12:14', batch: 'B-1042', verified: false }
+  ],
+  correctiveActions: [
+    { id: 1, trigger: 'Fridge 1 at 7°C', action: 'Discard high-risk dairy from batch B-1042 and re-check after thermostat reset.', status: 'open', linked: 'CCP Cold Storage' },
+    { id: 2, trigger: 'Missed closing log on Friday', action: 'Manager verification required and refresher SOP attached.', status: 'in progress', linked: 'Closing Hygiene SOP' }
+  ],
+  verifications: [
+    { id: 1, item: 'Opening hygiene check', by: 'Leah Byrne', reviewer: 'Mark O’Neill', status: 'needs review' },
+    { id: 2, item: 'Freezer A temperature', by: 'Tom Silva', reviewer: 'Mark O’Neill', status: 'approved' }
+  ],
+  audits: [
+    { id: 1, name: 'Weekly truck hygiene audit', score: '92%', when: 'Fri 17:00', status: 'scheduled' },
+    { id: 2, name: 'Supplier traceability spot-check', score: '88%', when: 'Last Tue', status: 'complete' }
+  ],
+  documents: [
+    { id: 1, name: 'Truck permit', type: 'Permit', expires: '2026-08-01', folder: 'Regulatory' },
+    { id: 2, name: 'Food safety training — Leah', type: 'Training', expires: '2026-06-14', folder: 'Team' },
+    { id: 3, name: 'Cleaning SOP v3', type: 'SOP', expires: 'Published', folder: 'Procedures' },
+    { id: 4, name: 'PRP — Pest control', type: 'PRP', expires: 'Published', folder: 'Programs' }
+  ],
+  batches: [
+    { id: 'B-1042', product: 'Chimichurri chicken', ingredient: 'Chicken thighs', supplier: 'GreenField Foods', qty: '24 portions', expiry: '2026-05-04', status: 'flagged' },
+    { id: 'B-1041', product: 'Pickled slaw', ingredient: 'Cabbage mix', supplier: 'Fresh Lane Produce', qty: '30 portions', expiry: '2026-05-05', status: 'ok' }
+  ],
+  recipes: [
+    { id: 1, name: 'Cinder Burger Sauce', allergens: 'Egg, mustard', yield: '2L', lastUpdated: '02 May' },
+    { id: 2, name: 'Chimichurri Chicken Prep', allergens: 'None', yield: '24 portions', lastUpdated: '28 Apr' }
+  ],
+  haccp: {
+    ccp: [
+      { point: 'Cold storage', limit: '0–5°C', method: 'Probe temp twice daily', corrective: 'Isolate and discard high-risk food if breached' },
+      { point: 'Hot holding', limit: '63°C+', method: 'Probe each service block', corrective: 'Reheat once or discard' }
+    ],
+    prps: ['Cleaning & sanitation', 'Waste handling', 'Allergen controls', 'Supplier approval'],
+    sops: ['Opening hygiene SOP', 'Close-down SOP', 'Probe calibration SOP'],
+    flow: ['Receiving', 'Cold storage', 'Prep', 'Cooking', 'Hot hold', 'Service', 'Waste']
+  },
+  integrations: [
+    { name: 'IoT temperature sensors', status: 'planned' },
+    { name: 'POS order sync', status: 'planned' },
+    { name: 'Google Drive export', status: 'mocked' },
+    { name: 'Accounting sync', status: 'planned' }
+  ]
+};
 
-    const root = document.documentElement;
-    const themeToggle = document.getElementById("themeToggle");
-    const pageSections = document.querySelectorAll(".page-section");
-    const navButtons = document.querySelectorAll(".nav-btn");
-    const goPageButtons = document.querySelectorAll("[data-go-page]");
+const fmt = {
+  status(s){ return s === 'due' ? 'amber' : s === 'attention' ? 'red' : s === 'complete' || s === 'approved' || s === 'ok' ? 'green' : 'blue'; },
+  label(s){ return s.replace(/(^.|\b.)/g, m => m.toUpperCase()); }
+};
 
-    const checksDueCount = document.getElementById("checksDueCount");
-    const logsTodayCount = document.getElementById("logsTodayCount");
-    const ordersTodayCount = document.getElementById("ordersTodayCount");
-    const reportStatusText = document.getElementById("reportStatusText");
-    const missingCountText = document.getElementById("missingCountText");
-    const truckNameText = document.getElementById("truckNameText");
+const qs = s => document.querySelector(s);
+const qsa = s => Array.from(document.querySelectorAll(s));
 
-    const recentLogs = document.getElementById("recentLogs");
-    const logsTableBody = document.getElementById("logsTableBody");
-    const orderList = document.getElementById("orderList");
-    const orderEmpty = document.getElementById("orderEmpty");
-    const alertsList = document.getElementById("alertsList");
+function escapeHtml(text){return String(text).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function setTheme(theme){state.theme=theme;document.documentElement.setAttribute('data-theme',theme);}
+function dueCount(){return state.tasks.filter(t=>t.status==='due'||t.status==='attention').length;}
+function docExpiryCount(){return state.documents.filter(d=>String(d.expires).includes('2026-06')).length;}
+function openDrawer(type='temp'){state.quickType=type;qs('#drawer').classList.add('show');qsa('[data-quick]').forEach(b=>b.classList.toggle('active',b.dataset.quick===type));qs('#quickName').focus();}
+function closeDrawer(){qs('#drawer').classList.remove('show');qs('#quickName').value='';qs('#quickValue').value='';qs('#quickNotes').value='';}
+function downloadText(filename, content){const blob=new Blob([content],{type:'text/plain;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);}
+function navigate(page){state.currentPage=page;qsa('.page').forEach(p=>p.classList.toggle('active',p.id===`page-${page}`));qsa('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));render();window.scrollTo({top:0,behavior:'smooth'});}
 
-    const reportHeadline = document.getElementById("reportHeadline");
-    const reportCopy = document.getElementById("reportCopy");
-    const reportDate = document.getElementById("reportDate");
-    const reportMissing = document.getElementById("reportMissing");
-    const reportOrders = document.getElementById("reportOrders");
+function renderDesktopSide(){
+  qs('#desktopQuickNav').innerHTML = [
+    ['Complete due checks','tasks'],['Add temperature log','logs'],['Open documents','documents'],['Traceability & HACCP','more']
+  ].map(([label,page])=>`<button class="btn-ghost" style="text-align:left;justify-content:flex-start" onclick="navigate('${page}')">${label}</button>`).join('');
+  qs('#desktopPulse').innerHTML = `
+    <div class="mini-card"><strong>${dueCount()}</strong><span>Items needing attention</span></div>
+    <div class="mini-card"><strong>${state.logs.length}</strong><span>Logs captured today</span></div>
+    <div class="mini-card"><strong>${state.correctiveActions.filter(a=>a.status!=='resolved').length}</strong><span>Open corrective actions</span></div>
+    <div class="mini-card"><strong>${docExpiryCount()}</strong><span>Documents expiring soon</span></div>`;
+}
 
-    const modalBackdrop = document.getElementById("modalBackdrop");
-    const openChecklistBtn = document.getElementById("openChecklistBtn");
-    const fabBtn = document.getElementById("fabBtn");
-    const quickTempBtn = document.getElementById("quickTempBtn");
-    const quickCleanBtn = document.getElementById("quickCleanBtn");
-    const cancelBtn = document.getElementById("cancelBtn");
-    const saveBtn = document.getElementById("saveBtn");
-    const clearLogsBtn = document.getElementById("clearLogsBtn");
-    const previewReportBtn = document.getElementById("previewReportBtn");
-    const downloadReportBtn = document.getElementById("downloadReportBtn");
-
-    const logType = document.getElementById("logType");
-    const logValue = document.getElementById("logValue");
-    const logNotes = document.getElementById("logNotes");
-    const logMessage = document.getElementById("logMessage");
-
-    const orderForm = document.getElementById("orderForm");
-    const orderName = document.getElementById("orderName");
-    const orderItem = document.getElementById("orderItem");
-    const orderQty = document.getElementById("orderQty");
-    const orderValue = document.getElementById("orderValue");
-    const orderNotes = document.getElementById("orderNotes");
-    const orderMessage = document.getElementById("orderMessage");
-
-    function formatTime(date = new Date()) {
-      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-    }
-
-    function formatDate(date = new Date()) {
-      return date.toLocaleDateString([], { day: "2-digit", month: "short", year: "numeric" });
-    }
-
-    function escapeHtml(text) {
-      return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-    function setTheme(theme) {
-      state.theme = theme;
-      root.setAttribute("data-theme", theme);
-    }
-
-    function showPage(pageName) {
-      state.currentPage = pageName;
-      pageSections.forEach(section => {
-        section.classList.toggle("hidden-section", section.id !== `page-${pageName}`);
-      });
-      navButtons.forEach(button => {
-        button.classList.toggle("active", button.dataset.page === pageName);
-      });
-    }
-
-    function openModal(defaultType = "Fridge temperature") {
-      logType.value = defaultType;
-      logMessage.classList.add("hidden");
-      logMessage.textContent = "";
-      modalBackdrop.classList.add("show");
-      modalBackdrop.setAttribute("aria-hidden", "false");
-      setTimeout(() => logValue.focus(), 50);
-    }
-
-    function closeModal() {
-      modalBackdrop.classList.remove("show");
-      modalBackdrop.setAttribute("aria-hidden", "true");
-      logValue.value = "";
-      logNotes.value = "";
-      logMessage.textContent = "";
-      logMessage.classList.add("hidden");
-    }
-
-    function renderLogs() {
-      recentLogs.innerHTML = "";
-      logsTableBody.innerHTML = "";
-
-      if (!state.logs.length) {
-        recentLogs.innerHTML = '<div class="empty-state"><strong>No logs yet</strong><p class="empty-copy">Save your first compliance record to start building an inspection trail.</p></div>';
-        logsTableBody.innerHTML = '<tr><td colspan="4">No logs saved yet.</td></tr>';
-        return;
-      }
-
-      state.logs.slice(0, 5).forEach(log => {
-        const row = document.createElement("div");
-        row.className = "log-row";
-        row.innerHTML = `
-          <div>
-            <strong>${escapeHtml(log.type)}</strong>
-            <span>${escapeHtml(log.value)} · ${escapeHtml(log.notes)}</span>
+function renderHome(){
+  const inspectionState = dueCount() === 0 ? 'Inspection-ready' : dueCount() === 1 ? 'Mostly ready' : 'Needs attention';
+  qs('#page-home').innerHTML = `
+    <section class="hero">
+      <p class="eyebrow">${escapeHtml(state.truck.name)} · ${escapeHtml(state.truck.location)}</p>
+      <h2>Make every service day feel calm, compliant, and ready for inspection.</h2>
+      <p>Designed for food truck operators who need fast logging, visible risks, and proof on demand without a cluttered dashboard.</p>
+      <div class="metrics">
+        <div class="metric"><strong>${dueCount()}</strong><span>Needs attention</span></div>
+        <div class="metric"><strong>${state.logs.length}</strong><span>Logs today</span></div>
+        <div class="metric"><strong>${inspectionState}</strong><span>Inspection pulse</span></div>
+      </div>
+      <div class="cta-row">
+        <button class="btn" onclick="navigate('tasks')">Complete due checks</button>
+        <button class="btn-soft" onclick="openDrawer('temp')">Record temperature</button>
+        <button class="btn-ghost" onclick="exportDailyReport()">Export proof</button>
+      </div>
+    </section>
+    <section class="page-grid">
+      <div class="card">
+        <div class="section-head"><div><h3>Five things operators need most</h3><p>Built around the fastest daily actions for a busy shift.</p></div></div>
+        <div class="list">
+          ${[
+            ['Due checks',`${dueCount()} items to clear before service`, 'tasks','A'],
+            ['Temperature logs','Capture fridge, freezer, and hot-hold readings','logs','T'],
+            ['Cleaning & hygiene','Fast completion with smart defaults','logs','C'],
+            ['Issues & corrective actions','See what needs immediate follow-up','more','!'],
+            ['Inspection proof','Open reports, documents, and export packs','documents','R']
+          ].map(([title,copy,page,icon])=>`<button class="list-row" onclick="navigate('${page}')"><div class="avatar">${icon}</div><div><h4>${title}</h4><p>${copy}</p></div><span class="status blue">Open</span></button>`).join('')}
+        </div>
+      </div>
+      <div class="stack">
+        <div class="sheet">
+          <div class="section-head" style="margin-bottom:12px"><div><h3>Real-time overview</h3><p class="subtle">Traffic-light visibility without dashboard overload.</p></div></div>
+          <div class="grid-2">
+            <div class="mini-card" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16)"><strong>${state.correctiveActions.filter(a=>a.status!=='resolved').length}</strong><span class="subtle">Open actions</span></div>
+            <div class="mini-card" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16)"><strong>${docExpiryCount()}</strong><span class="subtle">Doc reminders</span></div>
+            <div class="mini-card" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16)"><strong>${state.verifications.filter(v=>v.status==='needs review').length}</strong><span class="subtle">Need review</span></div>
+            <div class="mini-card" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.16)"><strong>${state.batches.filter(b=>b.status==='flagged').length}</strong><span class="subtle">Flagged batches</span></div>
           </div>
-          <small>${escapeHtml(log.time)}</small>
-        `;
-        recentLogs.appendChild(row);
-      });
-
-      state.logs.forEach(log => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = `
-          <td><strong>${escapeHtml(log.type)}</strong></td>
-          <td>${escapeHtml(log.value)}</td>
-          <td>${escapeHtml(log.notes)}</td>
-          <td>${escapeHtml(log.time)}</td>
-        `;
-        logsTableBody.appendChild(tr);
-      });
-    }
-
-    function renderOrders() {
-      orderList.innerHTML = "";
-      orderEmpty.classList.toggle("hidden", state.orders.length > 0);
-
-      state.orders.forEach(order => {
-        const row = document.createElement("div");
-        row.className = "log-row";
-        row.innerHTML = `
-          <div>
-            <strong>${escapeHtml(order.item)} x${escapeHtml(order.qty)}</strong>
-            <span>${escapeHtml(order.name)} · €${escapeHtml(order.total)}${order.notes ? " · " + escapeHtml(order.notes) : ""}</span>
+        </div>
+        <div class="card">
+          <div class="section-head"><div><h3>Critical issue visibility</h3><p>Surface the few things that matter right now.</p></div></div>
+          <div class="list">
+            ${state.correctiveActions.slice(0,2).map(a=>`<div class="list-row"><div class="avatar">!</div><div><h4>${escapeHtml(a.trigger)}</h4><p>${escapeHtml(a.action)}</p></div><span class="status ${fmt.status(a.status)}">${fmt.label(a.status)}</span></div>`).join('')}
           </div>
-          <small>${escapeHtml(order.time)}</small>
-        `;
-        orderList.prepend(row);
-      });
-    }
+        </div>
+      </div>
+    </section>`;
+}
 
-    function renderAlerts() {
-      const missingItems = Math.max(0, 4 - state.logs.length);
-      const alerts = [
-        {
-          title: missingItems > 0 ? "Missing required logs" : "Log coverage is healthy",
-          copy: missingItems > 0 ? `${missingItems} core checks still need to be captured for a stronger inspection record.` : "Your core log coverage looks good for today.",
-          level: missingItems > 0 ? "warning" : "done"
-        },
-        {
-          title: state.orders.length > 5 ? "Busy service period" : "Order volume normal",
-          copy: state.orders.length > 5 ? "High order volume means operators are more likely to skip manual paper logs." : "Current order volume should be manageable without workflow risk.",
-          level: state.orders.length > 5 ? "warning" : "done"
-        }
-      ];
+function renderTasks(){
+  qs('#page-tasks').innerHTML = `
+    <section class="card">
+      <div class="section-head"><div><h3>Monitoring</h3><p>Daily checks, reminders, role-based assignment, and quick completion.</p></div><button class="btn" onclick="completeDueTask()">Complete next task</button></div>
+      <div class="list">
+        ${state.tasks.map(t=>`<div class="list-row"><div class="avatar">${t.type[0]}</div><div><div class="kicker">${escapeHtml(t.type)} · Due ${escapeHtml(t.due)} · ${escapeHtml(t.owner)}</div><h4>${escapeHtml(t.title)}</h4><p>${escapeHtml(t.notes)}</p></div><span class="status ${fmt.status(t.status)}">${fmt.label(t.status)}</span></div>`).join('')}
+      </div>
+    </section>
+    <section class="page-grid full">
+      <div class="card">
+        <div class="section-head"><div><h3>Fast setup</h3><p>Guided onboarding, truck profile, equipment, and smart defaults.</p></div></div>
+        <div class="grid-2">
+          <div class="mini-card"><strong>Truck profile</strong><span>${escapeHtml(state.truck.name)} · ${escapeHtml(state.truck.concept)}</span></div>
+          <div class="mini-card"><strong>Equipment setup</strong><span>Freezer A, Fridge 1, Hot hold, Probe kit</span></div>
+          <div class="mini-card"><strong>Task generation</strong><span>Opening, service-block, closing, CCP-based</span></div>
+          <div class="mini-card"><strong>Smart defaults</strong><span>Templates pre-loaded for mobile catering</span></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-head"><div><h3>Custom system</h3><p>Templates, custom fields, skipped-task reasoning, and embedded guidance.</p></div></div>
+        <div class="stack">
+          <div class="folder"><div><strong>Task templates</strong><span class="subtle">Opening, closing, temperature, hygiene, equipment</span></div><span class="badge">Customizable</span></div>
+          <div class="folder"><div><strong>Pause / skip reasons</strong><span class="subtle">Blocked, service rush, equipment offline, supplier delay</span></div><span class="badge">Logged</span></div>
+          <div class="folder"><div><strong>Training instructions</strong><span class="subtle">Attach SOP snippets or video links to tasks</span></div><span class="badge">Included</span></div>
+        </div>
+      </div>
+    </section>`;
+}
 
-      alertsList.innerHTML = "";
-      alerts.forEach(alert => {
-        const row = document.createElement("div");
-        row.className = "alert-row";
-        row.innerHTML = `
-          <div>
-            <strong>${escapeHtml(alert.title)}</strong>
-            <span>${escapeHtml(alert.copy)}</span>
-          </div>
-          <small class="status-pill ${alert.level === "warning" ? "status-warning" : "status-done"}">${alert.level === "warning" ? "Attention" : "Good"}</small>
-        `;
-        alertsList.appendChild(row);
-      });
-    }
+function renderLogs(){
+  qs('#page-logs').innerHTML = `
+    <section class="card">
+      <div class="section-head"><div><h3>Monitoring logbook</h3><p>Searchable history with fast inspection lookup, filters, and export.</p></div><button class="btn-soft" onclick="exportLogs()">Download logs</button></div>
+      <div class="filter-row">
+        <input class="search" placeholder="Search by task, owner, category, or batch" id="logSearch" oninput="filterLogs(this.value)" />
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Category</th><th>Entry</th><th>Value</th><th>Owner</th><th>Time</th><th>Batch</th><th>Verification</th></tr></thead>
+          <tbody id="logRows"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="page-grid">
+      <div class="card">
+        <div class="section-head"><div><h3>Corrective actions</h3><p>Triggered when values are out of range and linked to CCPs.</p></div></div>
+        <div class="list">
+          ${state.correctiveActions.map(a=>`<div class="list-row"><div class="avatar">!</div><div><div class="kicker">Linked to ${escapeHtml(a.linked)}</div><h4>${escapeHtml(a.trigger)}</h4><p>${escapeHtml(a.action)}</p></div><span class="status ${fmt.status(a.status)}">${fmt.label(a.status)}</span></div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-head"><div><h3>Verification queue</h3><p>Track who logged, who reviewed, and what needs approval.</p></div></div>
+        <div class="list">
+          ${state.verifications.map(v=>`<div class="list-row"><div class="avatar">V</div><div><h4>${escapeHtml(v.item)}</h4><p>Logged by ${escapeHtml(v.by)} · Reviewer ${escapeHtml(v.reviewer)}</p></div><span class="status ${fmt.status(v.status)}">${fmt.label(v.status)}</span></div>`).join('')}
+        </div>
+      </div>
+    </section>`;
+  filterLogs('');
+}
 
-    function renderSummary() {
-      const missingItems = Math.max(0, 4 - state.logs.length);
-      const readiness = missingItems === 0 ? "Excellent" : missingItems === 1 ? "Strong" : "Needs work";
+function renderDocuments(){
+  const folders = ['Regulatory','Team','Procedures','Programs','Reports'];
+  qs('#page-documents').innerHTML = `
+    <section class="card">
+      <div class="section-head"><div><h3>Cloud storage</h3><p>Central compliance folders, quick retrieval, and inspection-ready downloads.</p></div><button class="btn-soft" onclick="exportDocumentPack()">Download pack</button></div>
+      <div class="stack">
+        ${folders.map(f=>`<div class="folder"><div><strong>${f}</strong><span class="subtle">${state.documents.filter(d=>d.folder===f).length} items</span></div><span class="badge">Open</span></div>`).join('')}
+      </div>
+    </section>
+    <section class="page-grid">
+      <div class="card">
+        <div class="section-head"><div><h3>Team-related documents</h3><p>Certifications, permits, training records, and expiry reminders.</p></div></div>
+        <div class="list">
+          ${state.documents.map(d=>`<div class="list-row"><div class="avatar">D</div><div><div class="kicker">${escapeHtml(d.type)} · ${escapeHtml(d.folder)}</div><h4>${escapeHtml(d.name)}</h4><p>${escapeHtml(String(d.expires))}</p></div><span class="status ${String(d.expires).includes('2026-06')?'amber':'blue'}">${String(d.expires).includes('Published')?'Live':'Tracked'}</span></div>`).join('')}
+        </div>
+      </div>
+      <div class="card">
+        <div class="section-head"><div><h3>Share digitally or download</h3><p>Designed for inspections, managers, and off-site review.</p></div></div>
+        <div class="stack">
+          <button class="btn-ghost" onclick="exportDailyReport()">Download inspection summary</button>
+          <button class="btn-ghost" onclick="exportLogs()">Download monitoring logbook</button>
+          <button class="btn-ghost" onclick="exportHaccp()">Download HACCP pack</button>
+          <button class="btn-ghost" onclick="exportAudit()">Download audit summary</button>
+        </div>
+      </div>
+    </section>`;
+}
 
-      checksDueCount.textContent = String(missingItems);
-      logsTodayCount.textContent = String(state.logs.length);
-      ordersTodayCount.textContent = String(state.orders.length);
-      reportStatusText.textContent = readiness;
-      missingCountText.textContent = String(missingItems);
-      truckNameText.textContent = state.truckName;
+function renderMore(){
+  qs('#page-more').innerHTML = `
+    <section class="card">
+      <div class="section-head"><div><h3>More</h3><p>Secondary workflows tucked behind simple primary navigation.</p></div></div>
+      <div class="tab-row" id="moreTabs">
+        ${['audits','traceability','haccp','reports','integrations','team','settings'].map((t,i)=>`<button class="tab-btn ${i===0?'active':''}" data-tab="${t}">${fmt.label(t)}</button>`).join('')}
+      </div>
+    </section>
+    <div id="moreContent"></div>`;
+  bindMoreTabs();
+  renderMoreTab('audits');
+}
 
-      reportHeadline.textContent = `Today’s report status: ${readiness.toLowerCase()}`;
-      reportCopy.textContent = missingItems === 0
-        ? "All core logs are present and timestamped for today."
-        : `${missingItems} key item${missingItems > 1 ? "s are" : " is"} still missing from the inspection trail.`;
-      reportDate.textContent = `Date: ${formatDate()}`;
-      reportMissing.textContent = `Missing items: ${missingItems}`;
-      reportOrders.textContent = `Orders: ${state.orders.length}`;
-    }
+function renderMoreTab(tab){
+  qs('#moreContent').innerHTML = ({
+    audits:`<section class="page-grid"><div class="card"><div class="section-head"><div><h3>Conducting audits</h3><p>Mobile checklist builder, scheduled audits, pass/fail or scored reviews, and history.</p></div><button class="btn-soft" onclick="exportAudit()">Export audit</button></div><div class="list">${state.audits.map(a=>`<div class="list-row"><div class="avatar">A</div><div><h4>${escapeHtml(a.name)}</h4><p>${escapeHtml(a.when)} · ${escapeHtml(a.score)}</p></div><span class="status ${fmt.status(a.status)}">${fmt.label(a.status)}</span></div>`).join('')}</div></div><div class="card"><div class="section-head"><div><h3>Audit follow-up</h3><p>Findings, assigned actions, and verification trail.</p></div></div><div class="stack"><div class="mini-card"><strong>Finding</strong><span>Probe calibration sticker missing on one unit.</span></div><div class="mini-card"><strong>Follow-up</strong><span>Assign recalibration to Mark before next service block.</span></div><div class="mini-card"><strong>Status</strong><span>Awaiting manager verification.</span></div></div></div></section>`,
+    traceability:`<section class="page-grid"><div class="card"><div class="section-head"><div><h3>Traceability</h3><p>Supplier tracking, batch logs, product links, recall readiness, and scan-ready fast entry.</p></div></div><div class="list">${state.batches.map(b=>`<div class="list-row"><div class="avatar">B</div><div><div class="kicker">${escapeHtml(b.supplier)} · Exp ${escapeHtml(b.expiry)}</div><h4>${escapeHtml(b.id)} · ${escapeHtml(b.product)}</h4><p>${escapeHtml(b.ingredient)} · ${escapeHtml(b.qty)}</p></div><span class="status ${fmt.status(b.status)}">${fmt.label(b.status)}</span></div>`).join('')}</div></div><div class="card"><div class="section-head"><div><h3>Recall readiness</h3><p>Search by batch, ingredient, product, or date and see affected outputs quickly.</p></div></div><div class="field"><label>Recall search</label><input class="search" value="Chicken thighs" /></div><div class="mini-card"><strong>Impacted product</strong><span>Chimichurri chicken · Batch B-1042 · 24 portions</span></div><div class="mini-card"><strong>Recommended action</strong><span>Isolate stock, halt sale, export recall summary, notify manager.</span></div></div></section>`,
+    haccp:`<section class="page-grid"><div class="card"><div class="section-head"><div><h3>HACCP plan</h3><p>Food truck-specific risks, guided builder, CCPs, SOPs, PRPs, and visual process flow.</p></div><button class="btn-soft" onclick="exportHaccp()">Export HACCP</button></div><div class="stack"><div class="mini-card"><strong>Builder</strong><span>Guided wizard auto-generates structure from truck profile and equipment.</span></div><div class="mini-card"><strong>CCPs</strong><span>${state.haccp.ccp.map(c=>c.point).join(' · ')}</span></div><div class="mini-card"><strong>PRPs</strong><span>${state.haccp.prps.join(' · ')}</span></div><div class="mini-card"><strong>SOPs</strong><span>${state.haccp.sops.join(' · ')}</span></div></div></div><div class="card"><div class="section-head"><div><h3>Flow chart</h3><p>Purchasing to storage to prep to service to waste.</p></div></div><div class="flow">${state.haccp.flow.map(step=>`<div class="flow-step"><strong>${escapeHtml(step)}</strong><span class="badge">Editable</span></div>`).join('')}</div><div class="table-wrap" style="margin-top:14px"><table><thead><tr><th>CCP</th><th>Critical limit</th><th>Monitoring</th><th>Corrective action</th></tr></thead><tbody>${state.haccp.ccp.map(c=>`<tr><td>${escapeHtml(c.point)}</td><td>${escapeHtml(c.limit)}</td><td>${escapeHtml(c.method)}</td><td>${escapeHtml(c.corrective)}</td></tr>`).join('')}</tbody></table></div></div></section>`,
+    reports:`<section class="page-grid"><div class="sheet"><div class="section-head"><div><h3>AI-style reports</h3><p class="subtle">Weekly summaries, missed-task patterns, trend views, and action cards.</p></div></div><div class="grid-2"><div class="mini-card" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)"><strong>94%</strong><span class="subtle">Weekly completion</span></div><div class="mini-card" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)"><strong>Cold storage</strong><span class="subtle">Top risk hotspot</span></div><div class="mini-card" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)"><strong>2</strong><span class="subtle">Repeated misses</span></div><div class="mini-card" style="background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.18)"><strong>Action</strong><span class="subtle">Move temp check earlier in prep</span></div></div></div><div class="card"><div class="section-head"><div><h3>Recommendation cards</h3><p>Designed to guide the next best action rather than overwhelm.</p></div></div><div class="timeline"><div class="timeline-item"><strong>Shift risk pattern</strong><p class="subtle">Midday cold-storage checks slip during order rush. Shift reminder to 11:45 and assign backup verifier.</p></div><div class="timeline-item"><strong>Training signal</strong><p class="subtle">Closing verification delays cluster on weekends. Attach close-down SOP to the final service checklist.</p></div></div></div></section>`,
+    integrations:`<section class="card"><div class="section-head"><div><h3>Integrations</h3><p>Mocked for MVP but placed intentionally to show SaaS direction.</p></div></div><div class="list">${state.integrations.map(i=>`<div class="list-row"><div class="avatar">I</div><div><h4>${escapeHtml(i.name)}</h4><p>Planned connection point for automation and export.</p></div><span class="status ${i.status==='mocked'?'blue':'amber'}">${fmt.label(i.status)}</span></div>`).join('')}</div></section>`,
+    team:`<section class="page-grid"><div class="card"><div class="section-head"><div><h3>Team</h3><p>Profiles, training visibility, document reminders, and role-based assignment.</p></div></div><div class="list">${state.team.map(m=>`<div class="list-row"><div class="avatar">${escapeHtml(m.name[0])}</div><div><h4>${escapeHtml(m.name)}</h4><p>${escapeHtml(m.role)} · ${m.docsExpiring} docs expiring soon</p></div><span class="status ${m.docsExpiring?'amber':'green'}">${m.docsExpiring?'Review':'Current'}</span></div>`).join('')}</div></div><div class="card"><div class="section-head"><div><h3>Smart recipe book</h3><p>Ingredient lists, allergens, prep instructions, portion scaling, and training support.</p></div></div><div class="list">${state.recipes.map(r=>`<div class="list-row"><div class="avatar">R</div><div><h4>${escapeHtml(r.name)}</h4><p>Allergens: ${escapeHtml(r.allergens)} · Yield: ${escapeHtml(r.yield)} · Updated ${escapeHtml(r.lastUpdated)}</p></div><span class="status blue">Recipe</span></div>`).join('')}</div></div></section>`,
+    settings:`<section class="card"><div class="section-head"><div><h3>Settings</h3><p>Operational preferences, drafts, published content, and versioning direction.</p></div></div><div class="stack"><div class="folder"><div><strong>Draft / publish states</strong><span class="subtle">Compliance content can be edited before release.</span></div><span class="badge">Enabled</span></div><div class="folder"><div><strong>Version history</strong><span class="subtle">Track changes to HACCP, SOP, and PRP content.</span></div><span class="badge">Tracked</span></div><div class="folder"><div><strong>Reminder logic</strong><span class="subtle">Auto-generated daily tasks based on setup and role assignment.</span></div><span class="badge">Active</span></div></div></section>`
+  })[tab];
+}
 
-    function renderApp() {
-      renderLogs();
-      renderOrders();
-      renderAlerts();
-      renderSummary();
-    }
+function bindMoreTabs(){
+  qsa('#moreTabs .tab-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    qsa('#moreTabs .tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderMoreTab(btn.dataset.tab);
+  }));
+}
 
-    themeToggle.addEventListener("click", () => {
-      setTheme(state.theme === "dark" ? "light" : "dark");
-    });
+function filterLogs(query){
+  const q = String(query).toLowerCase().trim();
+  const rows = state.logs.filter(l => !q || [l.category,l.entry,l.value,l.owner,l.batch].join(' ').toLowerCase().includes(q));
+  qs('#logRows').innerHTML = rows.map(l=>`<tr><td>${escapeHtml(l.category)}</td><td>${escapeHtml(l.entry)}</td><td>${escapeHtml(l.value)}</td><td>${escapeHtml(l.owner)}</td><td>${escapeHtml(l.time)}</td><td>${escapeHtml(l.batch)}</td><td>${l.verified?'Verified':'Pending'}</td></tr>`).join('') || '<tr><td colspan="7">No matching logs.</td></tr>';
+}
 
-    navButtons.forEach(button => {
-      button.addEventListener("click", () => showPage(button.dataset.page));
-    });
+function completeDueTask(){
+  const item = state.tasks.find(t=>t.status==='due'||t.status==='attention');
+  if(!item) return alert('All urgent tasks are already cleared.');
+  item.status = 'complete';
+  state.logs.unshift({id:Date.now(),category:item.type,entry:item.title,value:'Completed',owner:item.owner,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),batch:'-',verified:false});
+  render();
+}
 
-    goPageButtons.forEach(button => {
-      button.addEventListener("click", () => showPage(button.dataset.goPage));
-    });
+function exportDailyReport(){
+  const text = [
+    'LogReady365 Daily Inspection Summary',
+    `Truck: ${state.truck.name}`,
+    `Location: ${state.truck.location}`,
+    `Due items: ${dueCount()}`,
+    `Logs today: ${state.logs.length}`,
+    `Open corrective actions: ${state.correctiveActions.filter(a=>a.status!=='resolved').length}`,
+    '', 'Recent logs:',
+    ...state.logs.slice(0,8).map(l=>`- ${l.time} | ${l.category} | ${l.entry} | ${l.value} | ${l.owner}`)
+  ].join('\n');
+  downloadText('logready365-daily-report.txt', text);
+}
+function exportLogs(){ downloadText('logready365-monitoring-logbook.txt', state.logs.map(l=>`${l.time} | ${l.category} | ${l.entry} | ${l.value} | ${l.owner} | ${l.batch}`).join('\n')); }
+function exportDocumentPack(){ downloadText('logready365-document-pack.txt', state.documents.map(d=>`${d.folder} | ${d.type} | ${d.name} | ${d.expires}`).join('\n')); }
+function exportHaccp(){ downloadText('logready365-haccp-pack.txt', JSON.stringify(state.haccp,null,2)); }
+function exportAudit(){ downloadText('logready365-audit-summary.txt', state.audits.map(a=>`${a.name} | ${a.when} | ${a.score} | ${a.status}`).join('\n')); }
 
-    openChecklistBtn.addEventListener("click", () => openModal("Opening hygiene check"));
-    fabBtn.addEventListener("click", () => openModal("Fridge temperature"));
-    quickTempBtn.addEventListener("click", () => openModal("Fridge temperature"));
-    quickCleanBtn.addEventListener("click", () => openModal("Cleaning check"));
-    cancelBtn.addEventListener("click", closeModal);
+function saveQuickEntry(){
+  const quickMap = {temp:'Temperature',clean:'Cleaning',hygiene:'Hygiene',batch:'Traceability'};
+  const entry = qs('#quickName').value.trim();
+  const value = qs('#quickValue').value.trim();
+  const owner = qs('#quickOwner').value;
+  const notes = qs('#quickNotes').value.trim();
+  if(!entry || !value) return alert('Please add an entry name and value.');
+  state.logs.unshift({id:Date.now(),category:quickMap[state.quickType],entry,value,owner,time:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}),batch:state.quickType==='batch'?value:'-',verified:false});
+  if(state.quickType==='temp' && /(^[6-9]|\d{2,})/.test(value.replace(/[^\d]/g,''))) {
+    state.correctiveActions.unshift({id:Date.now()+1,trigger:`${entry} out of range`,action:'Immediate re-check, isolate affected high-risk food, and request manager review.',status:'open',linked:'CCP Cold Storage'});
+  }
+  closeDrawer();
+  navigate('logs');
+}
 
-    modalBackdrop.addEventListener("click", event => {
-      if (event.target === modalBackdrop) closeModal();
-    });
+function render(){
+  renderDesktopSide();
+  renderHome();
+  renderTasks();
+  renderLogs();
+  renderDocuments();
+  renderMore();
+}
 
-    saveBtn.addEventListener("click", () => {
-      const type = logType.value.trim();
-      const value = logValue.value.trim();
-      const notes = logNotes.value.trim() || "Saved from mobile app";
-
-      logMessage.classList.add("hidden");
-      logMessage.textContent = "";
-
-      if (!type || !value) {
-        logMessage.textContent = "Please choose a log type and enter a value or result.";
-        logMessage.style.color = "#ad3f2e";
-        logMessage.classList.remove("hidden");
-        return;
-      }
-
-      state.logs.unshift({ type, value, notes, time: formatTime() });
-      renderApp();
-      closeModal();
-    });
-
-    orderForm.addEventListener("submit", event => {
-      event.preventDefault();
-
-      const name = orderName.value.trim();
-      const item = orderItem.value.trim();
-      const qty = orderQty.value.trim();
-      const total = orderValue.value.trim();
-      const notes = orderNotes.value.trim();
-
-      orderMessage.classList.add("hidden");
-      orderMessage.textContent = "";
-
-      if (!name || !item || !qty || !total) {
-        orderMessage.textContent = "Please fill in customer name, item, quantity, and order total.";
-        orderMessage.style.color = "#ad3f2e";
-        orderMessage.classList.remove("hidden");
-        return;
-      }
-
-      state.orders.unshift({ name, item, qty, total, notes, time: formatTime() });
-      renderApp();
-      orderMessage.textContent = "Order saved successfully.";
-      orderMessage.style.color = "#2f7540";
-      orderMessage.classList.remove("hidden");
-      orderForm.reset();
-    });
-
-    clearLogsBtn.addEventListener("click", () => {
-      state.logs = [];
-      renderApp();
-    });
-
-    previewReportBtn.addEventListener("click", () => {
-      showPage("reports");
-      alert(`Report preview\n\nTruck: ${state.truckName}\nLogs today: ${state.logs.length}\nOrders today: ${state.orders.length}`);
-    });
-
-    downloadReportBtn.addEventListener("click", () => {
-      const content = [
-        `LogReady365 Daily Report`,
-        `Truck: ${state.truckName}`,
-        `Date: ${formatDate()}`,
-        `Logs saved: ${state.logs.length}`,
-        `Orders saved: ${state.orders.length}`,
-        ``,
-        `Compliance Logs:`,
-        ...state.logs.map(log => `- ${log.time} | ${log.type} | ${log.value} | ${log.notes}`),
-        ``,
-        `Orders:`,
-        ...state.orders.map(order => `- ${order.time} | ${order.name} | ${order.item} x${order.qty} | €${order.total}`)
-      ].join("\n");
-
-      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "logready365-report.txt";
-      link.click();
-      URL.revokeObjectURL(url);
-    });
-
-    setTheme(state.theme);
-    showPage("home");
-    renderApp();
-  </script>
+qsa('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>navigate(btn.dataset.page)));
+qs('#themeToggle').addEventListener('click',()=>setTheme(state.theme==='dark'?'light':'dark'));
+qs('#fabBtn').addEventListener('click',()=>openDrawer('temp'));
+qs('#closeDrawer').addEventListener('click',closeDrawer);
+qs('#drawer').addEventListener('click',e=>{ if(e.target.id==='drawer') closeDrawer(); });
+qs('#quickExportTop').addEventListener('click',exportDailyReport);
+qsa('[data-quick]').forEach(btn=>btn.addEventListener('click',()=>{state.quickType=btn.dataset.quick;qsa('[data-quick]').forEach(b=>b.classList.toggle('active',b===btn));}));
+qs('#saveQuick').addEventListener('click',saveQuickEntry);
+qs('#quickOwner').innerHTML = state.team.map(m=>`<option>${escapeHtml(m.name)}</option>`).join('');
+setTheme(state.theme);
+render();
+window.navigate = navigate;
+window.openDrawer = openDrawer;
+window.completeDueTask = completeDueTask;
+window.exportDailyReport = exportDailyReport;
+window.exportLogs = exportLogs;
+window.exportDocumentPack = exportDocumentPack;
+window.exportHaccp = exportHaccp;
+window.exportAudit = exportAudit;
+window.filterLogs = filterLogs;
+</script>
 </body>
 </html>

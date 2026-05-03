@@ -2,24 +2,25 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>LogReady365</title>
   <style>
     :root {
-      --bg: #f5f4ef;
-      --surface: #fbfaf7;
-      --surface-2: #efebe4;
-      --text: #1f1d19;
-      --muted: #6e6a63;
-      --line: rgba(31, 29, 25, 0.12);
-      --primary: #0e6b67;
-      --primary-dark: #0b4f4c;
-      --danger: #a43a2a;
-      --ok: #2f6f36;
-      --shadow: 0 10px 30px rgba(23, 20, 15, 0.08);
+      --bg: #f6f4ee;
+      --surface: #fcfbf8;
+      --surface-2: #f0ece4;
+      --surface-3: #e7e1d7;
+      --text: #1d1b17;
+      --muted: #706b63;
+      --line: rgba(29, 27, 23, 0.12);
+      --primary: #0f6f69;
+      --primary-dark: #0a514d;
+      --danger: #ad3f2e;
+      --ok: #2f7540;
+      --warning: #b07a18;
+      --info: #165f8c;
+      --shadow: 0 16px 40px rgba(23, 20, 15, 0.08);
+      --radius-xl: 24px;
       --radius-lg: 20px;
       --radius-md: 14px;
       --radius-sm: 10px;
@@ -30,15 +31,12 @@
       --space-5: 20px;
       --space-6: 24px;
       --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
 
     body {
       margin: 0;
@@ -48,12 +46,7 @@
       min-height: 100vh;
     }
 
-    button,
-    input,
-    textarea,
-    select {
-      font: inherit;
-    }
+    button, input, textarea, select { font: inherit; }
 
     .app-shell {
       width: 100%;
@@ -62,15 +55,15 @@
       margin: 0 auto;
       background: var(--bg);
       position: relative;
-      padding-bottom: 96px;
+      padding-bottom: 110px;
     }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 30;
       backdrop-filter: blur(10px);
-      background: rgba(245, 244, 239, 0.86);
+      background: rgba(246, 244, 238, 0.88);
       border-bottom: 1px solid var(--line);
       padding: 18px 18px 14px;
     }
@@ -167,32 +160,38 @@
       line-height: 1.6;
     }
 
-    .hero-stats {
+    .hero-stats,
+    .overview-grid,
+    .quick-actions {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
 
-    .stat {
+    .hero-stats { grid-template-columns: repeat(3, 1fr); }
+    .overview-grid { grid-template-columns: repeat(2, 1fr); }
+    .quick-actions { grid-template-columns: repeat(2, 1fr); }
+
+    .stat,
+    .overview-tile {
       background: var(--surface-2);
       border-radius: 14px;
       padding: 12px;
     }
 
-    .stat strong {
+    .stat strong,
+    .overview-tile strong {
       display: block;
       font-size: 18px;
       margin-bottom: 4px;
     }
 
-    .stat span {
+    .stat span,
+    .overview-tile span {
       color: var(--muted);
       font-size: 12px;
     }
 
-    .card {
-      padding: 16px;
-    }
+    .card { padding: 16px; }
 
     .section-head {
       display: flex;
@@ -208,15 +207,35 @@
       letter-spacing: -0.02em;
     }
 
-    .section-head p {
+    .section-head p,
+    .section-head span {
       margin: 0;
       color: var(--muted);
       font-size: 13px;
     }
 
-    .checklist {
+    .link-btn {
+      color: var(--primary);
+      background: transparent;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .checklist,
+    .form-grid,
+    .stack {
       display: grid;
       gap: 12px;
+    }
+
+    .check-item,
+    .log-row,
+    .alert-row {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: #fff;
     }
 
     .check-item {
@@ -225,9 +244,6 @@
       gap: 12px;
       align-items: center;
       padding: 12px;
-      border: 1px solid var(--line);
-      border-radius: var(--radius-md);
-      background: #fff;
     }
 
     .check-icon {
@@ -241,12 +257,16 @@
       font-weight: 700;
     }
 
-    .check-copy h3 {
+    .check-copy h3,
+    .metric-title,
+    .list-title {
       margin: 0 0 4px;
       font-size: 15px;
     }
 
-    .check-copy p {
+    .check-copy p,
+    .metric-copy,
+    .list-copy {
       margin: 0;
       color: var(--muted);
       font-size: 13px;
@@ -261,46 +281,32 @@
       white-space: nowrap;
     }
 
-    .status-due {
-      background: rgba(164, 58, 42, 0.12);
-      color: var(--danger);
-    }
+    .status-due { background: rgba(173, 63, 46, 0.12); color: var(--danger); }
+    .status-done { background: rgba(47, 117, 64, 0.12); color: var(--ok); }
+    .status-warning { background: rgba(176, 122, 24, 0.12); color: var(--warning); }
 
-    .status-done {
-      background: rgba(47, 111, 54, 0.12);
-      color: var(--ok);
-    }
+    .log-list,
+    .alerts-list { display: grid; gap: 10px; }
 
-    .log-list {
-      display: grid;
-      gap: 10px;
-    }
-
-    .log-row {
+    .log-row,
+    .alert-row {
       display: flex;
       justify-content: space-between;
       gap: 12px;
-      padding: 12px 0;
-      border-bottom: 1px solid var(--line);
+      padding: 12px;
     }
 
-    .log-row:last-child {
-      border-bottom: none;
-      padding-bottom: 0;
-    }
-
-    .log-row:first-child {
-      padding-top: 0;
-    }
-
-    .log-row strong {
+    .log-row strong,
+    .alert-row strong {
       display: block;
       margin-bottom: 4px;
       font-size: 14px;
     }
 
     .log-row span,
-    .log-row small {
+    .log-row small,
+    .alert-row span,
+    .alert-row small {
       color: var(--muted);
       font-size: 13px;
     }
@@ -315,11 +321,10 @@
     }
 
     .report-box h3,
-    .report-box p {
-      margin: 0;
-    }
+    .report-box p { margin: 0; }
 
-    .report-meta {
+    .report-meta,
+    .meta-row {
       display: flex;
       justify-content: space-between;
       gap: 12px;
@@ -335,11 +340,11 @@
     }
 
     .btn,
-    .btn-secondary {
+    .btn-secondary,
+    .btn-ghost {
       min-height: 46px;
       padding: 0 16px;
       border-radius: 999px;
-      border: none;
       cursor: pointer;
       font-weight: 700;
     }
@@ -347,6 +352,7 @@
     .btn {
       background: var(--primary);
       color: #fff;
+      border: none;
     }
 
     .btn-secondary {
@@ -355,13 +361,14 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .quick-actions {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--line);
     }
 
-    .quick-btn {
+    .quick-btn,
+    .action-card {
       background: #fff;
       border: 1px solid var(--line);
       border-radius: var(--radius-md);
@@ -371,13 +378,15 @@
       cursor: pointer;
     }
 
-    .quick-btn strong {
+    .quick-btn strong,
+    .action-card strong {
       display: block;
       margin-bottom: 6px;
       font-size: 14px;
     }
 
-    .quick-btn span {
+    .quick-btn span,
+    .action-card span {
       color: var(--muted);
       font-size: 12px;
       line-height: 1.45;
@@ -396,9 +405,10 @@
       box-shadow: var(--shadow);
       border-radius: 20px;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       padding: 8px;
       gap: 6px;
+      z-index: 35;
     }
 
     .nav-btn {
@@ -434,6 +444,7 @@
       box-shadow: var(--shadow);
       font-size: 28px;
       cursor: pointer;
+      z-index: 34;
     }
 
     .modal-backdrop {
@@ -447,9 +458,7 @@
       z-index: 40;
     }
 
-    .modal-backdrop.show {
-      display: flex;
-    }
+    .modal-backdrop.show { display: flex; }
 
     .modal {
       width: 100%;
@@ -464,9 +473,7 @@
     }
 
     .modal h3,
-    .modal p {
-      margin: 0;
-    }
+    .modal p { margin: 0; }
 
     .field {
       display: grid;
@@ -494,6 +501,12 @@
       resize: vertical;
     }
 
+    .inline-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
     .modal-actions {
       display: flex;
       gap: 10px;
@@ -519,19 +532,61 @@
       border-color: transparent;
     }
 
-    .helper {
+    .helper,
+    .empty-copy {
       font-size: 12px;
       color: var(--muted);
     }
 
-    .hidden {
-      display: none !important;
+    .message {
+      font-size: 13px;
+      font-weight: 600;
     }
+
+    .empty-state {
+      display: grid;
+      gap: 8px;
+      padding: 18px;
+      background: var(--surface-2);
+      border-radius: var(--radius-md);
+      text-align: center;
+    }
+
+    .hidden { display: none !important; }
+    .page-section.hidden-section { display: none; }
+
+    .table-wrap {
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: #fff;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+    }
+
+    th {
+      color: var(--muted);
+      font-weight: 700;
+      background: var(--surface-2);
+    }
+
+    td strong { display: block; }
 
     [data-theme="dark"] {
       --bg: #171512;
       --surface: #1f1c18;
       --surface-2: #2a2621;
+      --surface-3: #322d27;
       --text: #f2eee7;
       --muted: #b1aaa0;
       --line: rgba(255, 255, 255, 0.1);
@@ -539,14 +594,20 @@
       --primary-dark: #89c8c3;
       --danger: #ff8b79;
       --ok: #8ed195;
+      --warning: #edc067;
+      --info: #7eb7dd;
       --shadow: 0 14px 34px rgba(0, 0, 0, 0.35);
     }
 
     [data-theme="dark"] .check-item,
     [data-theme="dark"] .quick-btn,
+    [data-theme="dark"] .action-card,
     [data-theme="dark"] .field input,
     [data-theme="dark"] .field textarea,
-    [data-theme="dark"] .field select {
+    [data-theme="dark"] .field select,
+    [data-theme="dark"] .log-row,
+    [data-theme="dark"] .alert-row,
+    [data-theme="dark"] .table-wrap {
       background: #24201b;
       color: var(--text);
     }
@@ -560,15 +621,11 @@
     }
 
     @media (max-width: 460px) {
-      .fab {
-        right: 18px;
-      }
+      .fab { right: 18px; }
     }
 
     @media (min-width: 740px) {
-      body {
-        padding: 24px 0;
-      }
+      body { padding: 24px 0; }
 
       .app-shell {
         min-height: calc(100vh - 48px);
@@ -578,13 +635,8 @@
         box-shadow: var(--shadow);
       }
 
-      .bottom-nav {
-        bottom: 24px;
-      }
-
-      .fab {
-        bottom: 104px;
-      }
+      .bottom-nav { bottom: 24px; }
+      .fab { bottom: 104px; }
     }
   </style>
 </head>
@@ -609,175 +661,233 @@
     </header>
 
     <main>
-      <section class="hero-card">
-        <p class="eyebrow">Today · Monday shift</p>
-        <h2 class="hero-title">Stay inspection-ready without chasing paper logs.</h2>
-        <p class="hero-copy">
-          Complete your opening checks, temperature logs, cleaning tasks, and end-of-day records from one screen.
-        </p>
-
-        <div class="hero-stats">
-          <div class="stat">
-            <strong>3</strong>
-            <span>Checks due now</span>
-          </div>
-          <div class="stat">
-            <strong>14</strong>
-            <span>Logs completed today</span>
-          </div>
-          <div class="stat">
-            <strong>98%</strong>
-            <span>This week score</span>
-          </div>
-        </div>
-
-        <div class="btn-row">
-          <button class="btn" id="openChecklistBtn">Complete a check</button>
-          <button class="btn-secondary">View today’s report</button>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="section-head">
-          <div>
-            <h2>Due now</h2>
-            <p>Tasks that should be done before service starts</p>
-          </div>
-        </div>
-
-        <div class="checklist">
-          <article class="check-item">
-            <div class="check-icon">A</div>
-            <div class="check-copy">
-              <h3>Opening hygiene check</h3>
-              <p>Handwash station, sanitiser, paper towels, soap, bins.</p>
-            </div>
-            <div class="status-pill status-due">Due</div>
-          </article>
-
-          <article class="check-item">
-            <div class="check-icon">T</div>
-            <div class="check-copy">
-              <h3>Fridge temperature log</h3>
-              <p>Record fridge and freezer temperatures before service.</p>
-            </div>
-            <div class="status-pill status-due">Due</div>
-          </article>
-
-          <article class="check-item">
-            <div class="check-icon">C</div>
-            <div class="check-copy">
-              <h3>Surface sanitising check</h3>
-              <p>Confirm prep surfaces and utensils are cleaned and ready.</p>
-            </div>
-            <div class="status-pill status-done">Done</div>
-          </article>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="section-head">
-          <div>
-            <h2>Quick actions</h2>
-            <p>Fast entries for busy shifts</p>
-          </div>
-        </div>
-
-        <div class="quick-actions">
-          <button class="quick-btn" id="quickTempBtn">
-            <strong>Add temp log</strong>
-            <span>Record fridge or freezer temperature in seconds.</span>
-          </button>
-
-          <button class="quick-btn" id="quickCleanBtn">
-            <strong>Add cleaning log</strong>
-            <span>Save a cleaning check with notes and timestamp.</span>
-          </button>
-
-          <button class="quick-btn">
-            <strong>Upload photo</strong>
-            <span>Attach proof of completed checks for records.</span>
-          </button>
-
-          <button class="quick-btn">
-            <strong>View missing items</strong>
-            <span>See what would fail an inspection today.</span>
-          </button>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="section-head">
-          <div>
-            <h2>Recent logs</h2>
-            <p>Latest recorded activity</p>
-          </div>
-        </div>
-
-        <div class="log-list" id="recentLogs">
-          <div class="log-row">
-            <div>
-              <strong>Freezer temperature</strong>
-              <span>-18°C recorded by Mark</span>
-            </div>
-            <small>09:04</small>
-          </div>
-          <div class="log-row">
-            <div>
-              <strong>Surface clean complete</strong>
-              <span>Main prep area sanitised before opening</span>
-            </div>
-            <small>08:51</small>
-          </div>
-          <div class="log-row">
-            <div>
-              <strong>Opening hygiene check</strong>
-              <span>Soap, towels, and sanitiser stocked</span>
-            </div>
-            <small>08:43</small>
-          </div>
-        </div>
-      </section>
-
-      <section class="card">
-        <div class="section-head">
-          <div>
-            <h2>Inspection report</h2>
-            <p>What you can show an officer today</p>
-          </div>
-        </div>
-
-        <div class="report-box">
-          <div>
-            <h3>Today’s report status: strong</h3>
-            <p>Most essential logs are present and timestamped. One fridge check is still due.</p>
-          </div>
-          <div class="report-meta">
-            <span>Date: 03 May 2026</span>
-            <span>Missing items: 1</span>
-            <span>Attached photos: 2</span>
+      <section id="page-home" class="page-section">
+        <section class="hero-card">
+          <p class="eyebrow">Today · Monday shift</p>
+          <h2 class="hero-title">Stay inspection-ready without chasing paper logs.</h2>
+          <p class="hero-copy">Complete your opening checks, temperature logs, cleaning tasks, order notes, and end-of-day records from one clean workflow.</p>
+          <div class="hero-stats">
+            <div class="stat"><strong id="checksDueCount">3</strong><span>Checks due now</span></div>
+            <div class="stat"><strong id="logsTodayCount">3</strong><span>Logs saved today</span></div>
+            <div class="stat"><strong id="ordersTodayCount">0</strong><span>Orders today</span></div>
           </div>
           <div class="btn-row">
-            <button class="btn-secondary">Preview PDF</button>
-            <button class="btn-secondary">Send to owner</button>
+            <button class="btn" id="openChecklistBtn">Complete a check</button>
+            <button class="btn-ghost" data-go-page="reports">View report</button>
           </div>
-        </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Today at a glance</h2>
+              <p>Critical items operators need without digging through paper.</p>
+            </div>
+          </div>
+          <div class="overview-grid">
+            <div class="overview-tile"><strong id="reportStatusText">Strong</strong><span>Inspection readiness</span></div>
+            <div class="overview-tile"><strong id="missingCountText">1</strong><span>Missing items</span></div>
+            <div class="overview-tile"><strong>09:00</strong><span>Last fridge entry</span></div>
+            <div class="overview-tile"><strong>Open</strong><span>Shift status</span></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Due now</h2>
+              <p>Tasks that should be done before service starts.</p>
+            </div>
+          </div>
+          <div class="checklist">
+            <article class="check-item">
+              <div class="check-icon">A</div>
+              <div class="check-copy">
+                <h3>Opening hygiene check</h3>
+                <p>Handwash station, sanitiser, paper towels, soap, bins.</p>
+              </div>
+              <div class="status-pill status-due">Due</div>
+            </article>
+            <article class="check-item">
+              <div class="check-icon">T</div>
+              <div class="check-copy">
+                <h3>Fridge temperature log</h3>
+                <p>Record fridge and freezer temperatures before service.</p>
+              </div>
+              <div class="status-pill status-due">Due</div>
+            </article>
+            <article class="check-item">
+              <div class="check-icon">C</div>
+              <div class="check-copy">
+                <h3>Surface sanitising check</h3>
+                <p>Confirm prep surfaces and utensils are cleaned and ready.</p>
+              </div>
+              <div class="status-pill status-done">Done</div>
+            </article>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Quick actions</h2>
+              <p>Fast entries for busy shifts.</p>
+            </div>
+          </div>
+          <div class="quick-actions">
+            <button class="quick-btn" id="quickTempBtn"><strong>Add temp log</strong><span>Record fridge or freezer temperature in seconds.</span></button>
+            <button class="quick-btn" id="quickCleanBtn"><strong>Add cleaning log</strong><span>Save a cleaning check with notes and timestamp.</span></button>
+            <button class="quick-btn" data-go-page="orders"><strong>Add order</strong><span>Capture walk-up orders and service notes quickly.</span></button>
+            <button class="quick-btn" data-go-page="reports"><strong>Missing items</strong><span>See what would hurt an inspection today.</span></button>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Recent logs</h2>
+              <p>Latest recorded activity.</p>
+            </div>
+          </div>
+          <div class="log-list" id="recentLogs"></div>
+        </section>
+      </section>
+
+      <section id="page-orders" class="page-section hidden-section">
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Order form</h2>
+              <p>Quickly log a new customer order.</p>
+            </div>
+          </div>
+          <form id="orderForm" class="form-grid">
+            <div class="field">
+              <label for="orderName">Customer name</label>
+              <input id="orderName" type="text" placeholder="e.g. Sarah" />
+            </div>
+            <div class="inline-grid">
+              <div class="field">
+                <label for="orderItem">Order item</label>
+                <input id="orderItem" type="text" placeholder="e.g. Burger meal" />
+              </div>
+              <div class="field">
+                <label for="orderQty">Quantity</label>
+                <input id="orderQty" type="number" min="1" placeholder="1" />
+              </div>
+            </div>
+            <div class="field">
+              <label for="orderValue">Order total (€)</label>
+              <input id="orderValue" type="number" min="0" step="0.01" placeholder="12.50" />
+            </div>
+            <div class="field">
+              <label for="orderNotes">Notes</label>
+              <textarea id="orderNotes" placeholder="Optional notes"></textarea>
+            </div>
+            <p id="orderMessage" class="message hidden"></p>
+            <button class="btn" type="submit">Save order</button>
+          </form>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Recent orders</h2>
+              <p>Orders saved from the mobile form.</p>
+            </div>
+          </div>
+          <div id="orderList" class="log-list"></div>
+          <div id="orderEmpty" class="empty-state hidden">
+            <strong>No orders yet</strong>
+            <p class="empty-copy">Your first saved order will appear here.</p>
+          </div>
+        </section>
+      </section>
+
+      <section id="page-logs" class="page-section hidden-section">
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>All compliance logs</h2>
+              <p>Every saved hygiene, temperature, and cleaning record.</p>
+            </div>
+            <button class="link-btn" id="clearLogsBtn" type="button">Clear demo data</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Type</th>
+                  <th>Value</th>
+                  <th>Notes</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="logsTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="page-reports" class="page-section hidden-section">
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Inspection report</h2>
+              <p>What you can show an officer today.</p>
+            </div>
+          </div>
+          <div class="report-box">
+            <div>
+              <h3 id="reportHeadline">Today’s report status: strong</h3>
+              <p id="reportCopy">Most essential logs are present and timestamped. One fridge check is still due.</p>
+            </div>
+            <div class="report-meta">
+              <span id="reportDate">Date: 03 May 2026</span>
+              <span id="reportMissing">Missing items: 1</span>
+              <span id="reportOrders">Orders: 0</span>
+            </div>
+            <div class="btn-row">
+              <button class="btn-secondary" id="previewReportBtn" type="button">Preview summary</button>
+              <button class="btn-secondary" id="downloadReportBtn" type="button">Download text report</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Risk alerts</h2>
+              <p>High-friction issues operators need to fix fast.</p>
+            </div>
+          </div>
+          <div class="alerts-list" id="alertsList"></div>
+        </section>
+      </section>
+
+      <section id="page-settings" class="page-section hidden-section">
+        <section class="card">
+          <div class="section-head">
+            <div>
+              <h2>Settings</h2>
+              <p>Simple operator preferences for this demo.</p>
+            </div>
+          </div>
+          <div class="stack">
+            <div class="action-card"><strong>Truck name</strong><span id="truckNameText">Mark’s Food Truck</span></div>
+            <div class="action-card"><strong>Reminder mode</strong><span>Manual demo mode</span></div>
+            <div class="action-card"><strong>Current stack</strong><span>Single-file HTML, CSS, and JavaScript MVP</span></div>
+          </div>
+        </section>
       </section>
     </main>
 
     <nav class="bottom-nav" aria-label="Primary navigation">
-      <button class="nav-btn active">
-        <span>Home</span>
-      </button>
-      <button class="nav-btn">
-        <span>Logs</span>
-      </button>
-      <button class="nav-btn">
-        <span>Reports</span>
-      </button>
-      <button class="nav-btn">
-        <span>Settings</span>
-      </button>
+      <button class="nav-btn active" data-page="home"><span>Home</span></button>
+      <button class="nav-btn" data-page="orders"><span>Orders</span></button>
+      <button class="nav-btn" data-page="logs"><span>Logs</span></button>
+      <button class="nav-btn" data-page="reports"><span>Reports</span></button>
+      <button class="nav-btn" data-page="settings"><span>Settings</span></button>
     </nav>
 
     <button class="fab" id="fabBtn" aria-label="Add new log">+</button>
@@ -786,7 +896,7 @@
   <div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <h3 id="modalTitle">Add a compliance log</h3>
-      <p class="helper">Use this to simulate saving a food safety record.</p>
+      <p class="helper">Use this to save hygiene, temperature, or cleaning records.</p>
 
       <div class="field">
         <label for="logType">Log type</label>
@@ -809,24 +919,52 @@
         <textarea id="logNotes" placeholder="Optional note for the record"></textarea>
       </div>
 
+      <p id="logMessage" class="message hidden"></p>
+
       <div class="modal-actions">
-        <button class="cancel-btn" id="cancelBtn">Cancel</button>
-        <button class="save-btn" id="saveBtn">Save log</button>
+        <button class="cancel-btn" id="cancelBtn" type="button">Cancel</button>
+        <button class="save-btn" id="saveBtn" type="button">Save log</button>
       </div>
     </div>
   </div>
 
   <script>
-    const themeToggle = document.getElementById("themeToggle");
-    const root = document.documentElement;
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    let currentTheme = prefersDark ? "dark" : "light";
-    root.setAttribute("data-theme", currentTheme);
+    const state = {
+      theme: window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+      currentPage: "home",
+      truckName: "Mark’s Food Truck",
+      logs: [
+        { type: "Freezer temperature", value: "-18°C", notes: "Recorded by Mark", time: "09:04" },
+        { type: "Surface clean complete", value: "Completed", notes: "Main prep area sanitised before opening", time: "08:51" },
+        { type: "Opening hygiene check", value: "Completed", notes: "Soap, towels, and sanitiser stocked", time: "08:43" }
+      ],
+      orders: []
+    };
 
-    themeToggle.addEventListener("click", () => {
-      currentTheme = currentTheme === "dark" ? "light" : "dark";
-      root.setAttribute("data-theme", currentTheme);
-    });
+    const root = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const pageSections = document.querySelectorAll(".page-section");
+    const navButtons = document.querySelectorAll(".nav-btn");
+    const goPageButtons = document.querySelectorAll("[data-go-page]");
+
+    const checksDueCount = document.getElementById("checksDueCount");
+    const logsTodayCount = document.getElementById("logsTodayCount");
+    const ordersTodayCount = document.getElementById("ordersTodayCount");
+    const reportStatusText = document.getElementById("reportStatusText");
+    const missingCountText = document.getElementById("missingCountText");
+    const truckNameText = document.getElementById("truckNameText");
+
+    const recentLogs = document.getElementById("recentLogs");
+    const logsTableBody = document.getElementById("logsTableBody");
+    const orderList = document.getElementById("orderList");
+    const orderEmpty = document.getElementById("orderEmpty");
+    const alertsList = document.getElementById("alertsList");
+
+    const reportHeadline = document.getElementById("reportHeadline");
+    const reportCopy = document.getElementById("reportCopy");
+    const reportDate = document.getElementById("reportDate");
+    const reportMissing = document.getElementById("reportMissing");
+    const reportOrders = document.getElementById("reportOrders");
 
     const modalBackdrop = document.getElementById("modalBackdrop");
     const openChecklistBtn = document.getElementById("openChecklistBtn");
@@ -835,13 +973,59 @@
     const quickCleanBtn = document.getElementById("quickCleanBtn");
     const cancelBtn = document.getElementById("cancelBtn");
     const saveBtn = document.getElementById("saveBtn");
-    const recentLogs = document.getElementById("recentLogs");
+    const clearLogsBtn = document.getElementById("clearLogsBtn");
+    const previewReportBtn = document.getElementById("previewReportBtn");
+    const downloadReportBtn = document.getElementById("downloadReportBtn");
+
     const logType = document.getElementById("logType");
     const logValue = document.getElementById("logValue");
     const logNotes = document.getElementById("logNotes");
+    const logMessage = document.getElementById("logMessage");
 
-    function openModal(defaultType) {
-      if (defaultType) logType.value = defaultType;
+    const orderForm = document.getElementById("orderForm");
+    const orderName = document.getElementById("orderName");
+    const orderItem = document.getElementById("orderItem");
+    const orderQty = document.getElementById("orderQty");
+    const orderValue = document.getElementById("orderValue");
+    const orderNotes = document.getElementById("orderNotes");
+    const orderMessage = document.getElementById("orderMessage");
+
+    function formatTime(date = new Date()) {
+      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    }
+
+    function formatDate(date = new Date()) {
+      return date.toLocaleDateString([], { day: "2-digit", month: "short", year: "numeric" });
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function setTheme(theme) {
+      state.theme = theme;
+      root.setAttribute("data-theme", theme);
+    }
+
+    function showPage(pageName) {
+      state.currentPage = pageName;
+      pageSections.forEach(section => {
+        section.classList.toggle("hidden-section", section.id !== `page-${pageName}`);
+      });
+      navButtons.forEach(button => {
+        button.classList.toggle("active", button.dataset.page === pageName);
+      });
+    }
+
+    function openModal(defaultType = "Fridge temperature") {
+      logType.value = defaultType;
+      logMessage.classList.add("hidden");
+      logMessage.textContent = "";
       modalBackdrop.classList.add("show");
       modalBackdrop.setAttribute("aria-hidden", "false");
       setTimeout(() => logValue.focus(), 50);
@@ -852,7 +1036,131 @@
       modalBackdrop.setAttribute("aria-hidden", "true");
       logValue.value = "";
       logNotes.value = "";
+      logMessage.textContent = "";
+      logMessage.classList.add("hidden");
     }
+
+    function renderLogs() {
+      recentLogs.innerHTML = "";
+      logsTableBody.innerHTML = "";
+
+      if (!state.logs.length) {
+        recentLogs.innerHTML = '<div class="empty-state"><strong>No logs yet</strong><p class="empty-copy">Save your first compliance record to start building an inspection trail.</p></div>';
+        logsTableBody.innerHTML = '<tr><td colspan="4">No logs saved yet.</td></tr>';
+        return;
+      }
+
+      state.logs.slice(0, 5).forEach(log => {
+        const row = document.createElement("div");
+        row.className = "log-row";
+        row.innerHTML = `
+          <div>
+            <strong>${escapeHtml(log.type)}</strong>
+            <span>${escapeHtml(log.value)} · ${escapeHtml(log.notes)}</span>
+          </div>
+          <small>${escapeHtml(log.time)}</small>
+        `;
+        recentLogs.appendChild(row);
+      });
+
+      state.logs.forEach(log => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td><strong>${escapeHtml(log.type)}</strong></td>
+          <td>${escapeHtml(log.value)}</td>
+          <td>${escapeHtml(log.notes)}</td>
+          <td>${escapeHtml(log.time)}</td>
+        `;
+        logsTableBody.appendChild(tr);
+      });
+    }
+
+    function renderOrders() {
+      orderList.innerHTML = "";
+      orderEmpty.classList.toggle("hidden", state.orders.length > 0);
+
+      state.orders.forEach(order => {
+        const row = document.createElement("div");
+        row.className = "log-row";
+        row.innerHTML = `
+          <div>
+            <strong>${escapeHtml(order.item)} x${escapeHtml(order.qty)}</strong>
+            <span>${escapeHtml(order.name)} · €${escapeHtml(order.total)}${order.notes ? " · " + escapeHtml(order.notes) : ""}</span>
+          </div>
+          <small>${escapeHtml(order.time)}</small>
+        `;
+        orderList.prepend(row);
+      });
+    }
+
+    function renderAlerts() {
+      const missingItems = Math.max(0, 4 - state.logs.length);
+      const alerts = [
+        {
+          title: missingItems > 0 ? "Missing required logs" : "Log coverage is healthy",
+          copy: missingItems > 0 ? `${missingItems} core checks still need to be captured for a stronger inspection record.` : "Your core log coverage looks good for today.",
+          level: missingItems > 0 ? "warning" : "done"
+        },
+        {
+          title: state.orders.length > 5 ? "Busy service period" : "Order volume normal",
+          copy: state.orders.length > 5 ? "High order volume means operators are more likely to skip manual paper logs." : "Current order volume should be manageable without workflow risk.",
+          level: state.orders.length > 5 ? "warning" : "done"
+        }
+      ];
+
+      alertsList.innerHTML = "";
+      alerts.forEach(alert => {
+        const row = document.createElement("div");
+        row.className = "alert-row";
+        row.innerHTML = `
+          <div>
+            <strong>${escapeHtml(alert.title)}</strong>
+            <span>${escapeHtml(alert.copy)}</span>
+          </div>
+          <small class="status-pill ${alert.level === "warning" ? "status-warning" : "status-done"}">${alert.level === "warning" ? "Attention" : "Good"}</small>
+        `;
+        alertsList.appendChild(row);
+      });
+    }
+
+    function renderSummary() {
+      const missingItems = Math.max(0, 4 - state.logs.length);
+      const readiness = missingItems === 0 ? "Excellent" : missingItems === 1 ? "Strong" : "Needs work";
+
+      checksDueCount.textContent = String(missingItems);
+      logsTodayCount.textContent = String(state.logs.length);
+      ordersTodayCount.textContent = String(state.orders.length);
+      reportStatusText.textContent = readiness;
+      missingCountText.textContent = String(missingItems);
+      truckNameText.textContent = state.truckName;
+
+      reportHeadline.textContent = `Today’s report status: ${readiness.toLowerCase()}`;
+      reportCopy.textContent = missingItems === 0
+        ? "All core logs are present and timestamped for today."
+        : `${missingItems} key item${missingItems > 1 ? "s are" : " is"} still missing from the inspection trail.`;
+      reportDate.textContent = `Date: ${formatDate()}`;
+      reportMissing.textContent = `Missing items: ${missingItems}`;
+      reportOrders.textContent = `Orders: ${state.orders.length}`;
+    }
+
+    function renderApp() {
+      renderLogs();
+      renderOrders();
+      renderAlerts();
+      renderSummary();
+    }
+
+    themeToggle.addEventListener("click", () => {
+      setTheme(state.theme === "dark" ? "light" : "dark");
+    });
+
+    navButtons.forEach(button => {
+      button.addEventListener("click", () => showPage(button.dataset.page));
+    });
+
+    goPageButtons.forEach(button => {
+      button.addEventListener("click", () => showPage(button.dataset.goPage));
+    });
 
     openChecklistBtn.addEventListener("click", () => openModal("Opening hygiene check"));
     fabBtn.addEventListener("click", () => openModal("Fridge temperature"));
@@ -860,155 +1168,94 @@
     quickCleanBtn.addEventListener("click", () => openModal("Cleaning check"));
     cancelBtn.addEventListener("click", closeModal);
 
-    modalBackdrop.addEventListener("click", (e) => {
-      if (e.target === modalBackdrop) closeModal();
+    modalBackdrop.addEventListener("click", event => {
+      if (event.target === modalBackdrop) closeModal();
     });
 
     saveBtn.addEventListener("click", () => {
       const type = logType.value.trim();
-      const value = logValue.value.trim() || "Completed";
+      const value = logValue.value.trim();
       const notes = logNotes.value.trim() || "Saved from mobile app";
-      const now = new Date();
-      const time = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
-      const row = document.createElement("div");
-      row.className = "log-row";
-      row.innerHTML = `
-        <div>
-          <strong>${type}</strong>
-          <span>${value} · ${notes}</span>
-        </div>
-        <small>${time}</small>
-      `;
+      logMessage.classList.add("hidden");
+      logMessage.textContent = "";
 
-      recentLogs.prepend(row);
+      if (!type || !value) {
+        logMessage.textContent = "Please choose a log type and enter a value or result.";
+        logMessage.style.color = "#ad3f2e";
+        logMessage.classList.remove("hidden");
+        return;
+      }
+
+      state.logs.unshift({ type, value, notes, time: formatTime() });
+      renderApp();
       closeModal();
     });
-    const orderForm = document.getElementById("orderForm");
-const orderList = document.getElementById("orderList");
-const orderName = document.getElementById("orderName");
-const orderItem = document.getElementById("orderItem");
-const orderQty = document.getElementById("orderQty");
-const orderNotes = document.getElementById("orderNotes");
 
-orderForm.addEventListener("submit", function (event) {
-  event.preventDefault();
+    orderForm.addEventListener("submit", event => {
+      event.preventDefault();
 
-  const name = orderName.value.trim();
-  const item = orderItem.value.trim();
-  const qty = orderQty.value.trim();
-  const notes = orderNotes.value.trim();
+      const name = orderName.value.trim();
+      const item = orderItem.value.trim();
+      const qty = orderQty.value.trim();
+      const total = orderValue.value.trim();
+      const notes = orderNotes.value.trim();
 
-  if (!name || !item || !qty) {
-    alert("Please fill in name, item, and quantity.");
-    return;
-  }
+      orderMessage.classList.add("hidden");
+      orderMessage.textContent = "";
 
-  const now = new Date();
-  const time = now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
+      if (!name || !item || !qty || !total) {
+        orderMessage.textContent = "Please fill in customer name, item, quantity, and order total.";
+        orderMessage.style.color = "#ad3f2e";
+        orderMessage.classList.remove("hidden");
+        return;
+      }
 
-  const row = document.createElement("div");
-  row.className = "log-row";
-  row.innerHTML = `
-    <div>
-      <strong>${item} x${qty}</strong>
-      <span>${name}${notes ? " · " + notes : ""}</span>
-    </div>
-    <small>${time}</small>
-  `;
+      state.orders.unshift({ name, item, qty, total, notes, time: formatTime() });
+      renderApp();
+      orderMessage.textContent = "Order saved successfully.";
+      orderMessage.style.color = "#2f7540";
+      orderMessage.classList.remove("hidden");
+      orderForm.reset();
+    });
 
-  orderList.prepend(row);
-  orderForm.reset();
-});
-    <section class="card">
-  <div class="section-head">
-    <div>
-      <h2>Order form</h2>
-      <p>Quickly log a new customer order</p>
-    </div>
-  </div>
+    clearLogsBtn.addEventListener("click", () => {
+      state.logs = [];
+      renderApp();
+    });
 
-  <form id="orderForm" class="checklist">
-    <div class="field">
-      <label for="orderName">Customer name</label>
-      <input id="orderName" type="text" placeholder="e.g. Sarah" />
-    </div>
+    previewReportBtn.addEventListener("click", () => {
+      showPage("reports");
+      alert(`Report preview\n\nTruck: ${state.truckName}\nLogs today: ${state.logs.length}\nOrders today: ${state.orders.length}`);
+    });
 
-    <div class="field">
-      <label for="orderItem">Order item</label>
-      <input id="orderItem" type="text" placeholder="e.g. Burger meal" />
-    </div>
+    downloadReportBtn.addEventListener("click", () => {
+      const content = [
+        `LogReady365 Daily Report`,
+        `Truck: ${state.truckName}`,
+        `Date: ${formatDate()}`,
+        `Logs saved: ${state.logs.length}`,
+        `Orders saved: ${state.orders.length}`,
+        ``,
+        `Compliance Logs:`,
+        ...state.logs.map(log => `- ${log.time} | ${log.type} | ${log.value} | ${log.notes}`),
+        ``,
+        `Orders:`,
+        ...state.orders.map(order => `- ${order.time} | ${order.name} | ${order.item} x${order.qty} | €${order.total}`)
+      ].join("\n");
 
-    <div class="field">
-      <label for="orderQty">Quantity</label>
-      <input id="orderQty" type="number" min="1" placeholder="1" />
-    </div>
+      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "logready365-report.txt";
+      link.click();
+      URL.revokeObjectURL(url);
+    });
 
-    <div class="field">
-      <label for="orderNotes">Notes</label>
-      <textarea id="orderNotes" placeholder="Optional notes"></textarea>
-    </div>
-
-    <button class="btn" type="submit">Save order</button>
-  </form>
-</section>
-
-<section class="card">
-  <div class="section-head">
-    <div>
-      <h2>Recent orders</h2>
-      <p>Orders added from the form</p>
-    </div>
-  </div>
-
-  <div id="orderList" class="log-list"></div>
-</section>
-    const orderMessage = document.getElementById("orderMessage");
-
-orderForm.addEventListener("submit", function (event) {
-  event.preventDefault();
-
-  const name = orderName.value.trim();
-  const item = orderItem.value.trim();
-  const qty = orderQty.value.trim();
-  const notes = orderNotes.value.trim();
-
-  orderMessage.classList.add("hidden");
-  orderMessage.textContent = "";
-
-  if (!name || !item || !qty) {
-    orderMessage.textContent = "Please fill in name, item, and quantity.";
-    orderMessage.style.color = "#a43a2a";
-    orderMessage.classList.remove("hidden");
-    return;
-  }
-
-  const now = new Date();
-  const time = now.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit"
-  });
-
-  const row = document.createElement("div");
-  row.className = "log-row";
-  row.innerHTML = `
-    <div>
-      <strong>${item} x${qty}</strong>
-      <span>${name}${notes ? " · " + notes : ""}</span>
-    </div>
-    <small>${time}</small>
-  `;
-
-  orderList.prepend(row);
-
-  orderMessage.textContent = "Order saved successfully.";
-  orderMessage.style.color = "#2f6f36";
-  orderMessage.classList.remove("hidden");
-
-  orderForm.reset();
-});
+    setTheme(state.theme);
+    showPage("home");
+    renderApp();
   </script>
-</body> This is all the code i have at the moment if there is any issue fix them, i am looking to create an app similar to apples website easy to navigate that will add value to food truck operators add in all new code that a need to complete this app. ensure you double check each line of code and make sure it is efficient and everything works correctly. You are the best software developer in the world and are building an app that will revolutionise compliance logs be creative and add in everything you deem relevant.
+</body>
+</html>

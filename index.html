@@ -884,6 +884,88 @@
       recentLogs.prepend(row);
       closeModal();
     });
+    const orderForm = document.getElementById("orderForm");
+const orderList = document.getElementById("orderList");
+const orderName = document.getElementById("orderName");
+const orderItem = document.getElementById("orderItem");
+const orderQty = document.getElementById("orderQty");
+const orderNotes = document.getElementById("orderNotes");
+
+orderForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+
+  const name = orderName.value.trim();
+  const item = orderItem.value.trim();
+  const qty = orderQty.value.trim();
+  const notes = orderNotes.value.trim();
+
+  if (!name || !item || !qty) {
+    alert("Please fill in name, item, and quantity.");
+    return;
+  }
+
+  const now = new Date();
+  const time = now.toLocaleTimeString([], {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
+  const row = document.createElement("div");
+  row.className = "log-row";
+  row.innerHTML = `
+    <div>
+      <strong>${item} x${qty}</strong>
+      <span>${name}${notes ? " · " + notes : ""}</span>
+    </div>
+    <small>${time}</small>
+  `;
+
+  orderList.prepend(row);
+  orderForm.reset();
+});
+    <section class="card">
+  <div class="section-head">
+    <div>
+      <h2>Order form</h2>
+      <p>Quickly log a new customer order</p>
+    </div>
+  </div>
+
+  <form id="orderForm" class="checklist">
+    <div class="field">
+      <label for="orderName">Customer name</label>
+      <input id="orderName" type="text" placeholder="e.g. Sarah" />
+    </div>
+
+    <div class="field">
+      <label for="orderItem">Order item</label>
+      <input id="orderItem" type="text" placeholder="e.g. Burger meal" />
+    </div>
+
+    <div class="field">
+      <label for="orderQty">Quantity</label>
+      <input id="orderQty" type="number" min="1" placeholder="1" />
+    </div>
+
+    <div class="field">
+      <label for="orderNotes">Notes</label>
+      <textarea id="orderNotes" placeholder="Optional notes"></textarea>
+    </div>
+
+    <button class="btn" type="submit">Save order</button>
+  </form>
+</section>
+
+<section class="card">
+  <div class="section-head">
+    <div>
+      <h2>Recent orders</h2>
+      <p>Orders added from the form</p>
+    </div>
+  </div>
+
+  <div id="orderList" class="log-list"></div>
+</section>
   </script>
 </body>
 </html>
